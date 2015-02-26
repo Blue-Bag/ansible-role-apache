@@ -1,0 +1,28 @@
+---
+## Apache vars on RedHat - not tested !!
+
+apache_daemon: httpd
+apache_server_root: "/etc/httpd"
+apache_vhost_path: "/etc/httpd/conf.d"
+apache_auth_htpasswd_file: "/etc/httpd/.htpasswds/passwdfile"
+apache_conf_main: "httpd.conf"
+
+
+apache_pkgs:
+  - httpd
+  - httpd-devel
+  - mod_ssl
+  - openssh
+   
+apache_mods_enabled:
+   - rewrite
+   - deflate
+   - expires
+   - vhost_alias
+   
+apache_mods_disabled:
+   - proxy
+   - proxy_ftp
+   - proxy_http
+   - proxy_connect
+   

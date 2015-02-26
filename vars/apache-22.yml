@@ -1,0 +1,19 @@
+---
+
+apache_vhosts_version: "2.2"
+
+apache_conf_available: "{{ apache_server_root }}/conf-available"
+apache_conf_enabled: "{{ apache_server_root }}/conf-enabled"
+apache_security_conf: "security"
+
+# these aren't needed as we use a template
+apache_ports_configuration_items:
+  - {
+    regexp: "^Listen ",
+    line: "Listen {{ apache_listen_port }}"
+  }
+  - {
+    regexp: "^NameVirtualHost ",
+    line: "NameVirtualHost *:{{ apache_listen_port }}"
+  }
+

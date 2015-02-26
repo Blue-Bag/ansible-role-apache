@@ -1,0 +1,54 @@
+---
+# tasks file for apache-setup
+
+
+# Include variables and define needed variables.
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+
+# Setup/install tasks.
+# Base install of Apache
+
+- include: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+  
+- include: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+# Common setup
+- include: setup-common.yml
+
+
+
+# Figure out what version of Apache is installed.
+- name: Get installed version of Apache.
+  command: "{{ apache_daemon }} -v"
+  changed_when: false
+  always_run: yes
+  register: _apache_version
+
+- name: Create apache_version variable.
+  set_fact:
+    apache_version: "{{ _apache_version.stdout.split()[2].split('/')[1] }}"
+
+- include_vars: apache-22.yml
+  when: "apache_version.split('.')[1] == '2'"
+
+- include_vars: apache-24.yml
+  when: "apache_version.split('.')[1] == '4'"
+
+# Configure Apache.
+
+- include: configure-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- include: configure-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+
+- name: Ensure Apache is started and enabled on boot.
+  service:
+    name: "{{ apache_daemon }}"
+    state: started
+    enabled: yes

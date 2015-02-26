@@ -1,0 +1,35 @@
+---
+# defaults file for apache-setup
+
+apache_listen_port: 80
+apache_listen_port_ssl: 443
+
+apache_server_admin: "{{ server_from_email }}"
+
+webserver_hostname: "{{ inventory_hostname }}"
+webserver_hostname_alias:  ""
+
+apache_home_dir: "/var/www"
+
+# ENVARS
+apache_run_user: "www-data"
+apache_run_group: "www-data"
+
+# Vars for conf.d/security
+apache_server_tokens: "PROD"
+apache_server_signature: "Off"
+apache_server_trace: "Off"
+
+##########  apache2.conf  ##############
+#Timeout 300
+apache_timeout: 300
+#KeepAlive On | Off
+apache_keepalive: "On"
+#MaxKeepAliveRequests 100
+apache_keepalive_max: 100
+#KeepAliveTimeout 5
+apache_keepalive_to: 5
+#HostnameLookups Off
+apache_hostnamelookups: "Off"
+#LogLevel warn
+apache_loglevel: warn

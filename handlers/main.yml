@@ -1,0 +1,17 @@
+---
+# handlers file for apache-setup
+
+# handlers file for Apache
+# we can't use conditional includes for handlers
+# Handler names must be unique
+# included files are always read and parsed at run time
+# but the conditionals re not evaluated until task is executed
+# result, the last handler definedwith the name 'wins'
+# and the wron handler will be run
+
+- name: restart apache
+  action: service name={{ apache_daemon }} state=restarted
+  tags: common
+
+- name: reload apache
+  service: name={{ apache_daemon }} state=reloaded

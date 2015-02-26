@@ -1,0 +1,12 @@
+---
+
+apache_vhosts_version: "2.4"
+apache_conf_available: "{{ apache_server_root }}/conf-available"
+apache_conf_enabled: "{{ apache_server_root }}/conf-enabled"
+apache_security_conf: "security.conf"
+
+apache_ports_configuration_items:
+  - {
+   regexp: "^Listen ",
+   line: "Listen {{ apache_listen_port }}"
+  }

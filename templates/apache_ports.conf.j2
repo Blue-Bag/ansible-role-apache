@@ -1,0 +1,22 @@
+# {{ ansible_managed }}
+{% if apache_vhosts_version == '2.2' %}
+  NameVirtualHost *:{{ apache_listen_port }}
+{% endif %}
+
+Listen {{ apache_listen_port }}
+
+{% if apache_vhosts_version == '2.2' %}
+<IfModule mod_ssl.c>
+    Listen {{ apache_listen_port_ssl }}
+</IfModule>
+{% else %}
+<IfModule ssl_module>
+        Listen {{ apache_listen_port_ssl }}
+</IfModule>
+{% endif %}
+
+<IfModule mod_gnutls.c>
+    Listen {{ apache_listen_port_ssl }}
+</IfModule>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
