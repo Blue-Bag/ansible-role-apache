@@ -1,2 +1,60 @@
 ---
 # vars file for apache-setup
+
+
+# vars for main apache conf
+apache_conf_vars:
+  - {
+    regexp: "^Timeout ",
+    line: "Timeout {{ apache_timeout }}"
+  }
+  - {
+    regexp: "^KeepAlive\\s",
+    line: "KeepAlive {{ apache_keepalive }}"
+  }
+  - {
+    regexp: "^MaxKeepAliveRequests",
+    line: "MaxKeepAliveRequests {{ apache_keepalive_max }}"
+  }
+  - {
+    regexp: "^KeepAliveTimeout",
+    line: "KeepAliveTimeout {{ apache_keepalive_to }}"
+  }
+  - {
+    regexp: "^HostnameLookups",
+    line: "HostnameLookups {{ apache_hostnamelookups }}"
+  }
+  - {
+    regexp: "^LogLevel ",
+    line: "LogLevel {{ apache_loglevel }}"
+  }
+  
+apache_env_vars:
+  - {
+    regexp: "^export APACHE_RUN_USER=",
+    line: "export APACHE_RUN_USER={{ apache_run_user }}"
+  }
+  - {
+    regexp: "^export APACHE_RUN_GROUP=",
+    line: "export APACHE_RUN_GROUP={{ apache_run_group }}"
+  }  
+  - {
+    regexp: "^export APACHE_LOG_DIR=",
+    line: "export APACHE_LOG_DIR={{ apache_log_dir }}$SUFFIX"
+  } 
+  
+  
+# vars for apache security  
+apache_security_vars:
+  - {
+    regexp: "^ServerTokens",
+    line: "ServerTokens {{ apache_server_tokens }}"
+  }
+  - {
+    regexp: "^ServerSignature",
+    line: "ServerSignature {{ apache_server_signature }}"
+  }
+  - {
+    regexp: "^TraceEnable",
+    line: "TraceEnable {{ apache_server_trace }}"
+  }

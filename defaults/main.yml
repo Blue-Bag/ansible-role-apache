@@ -11,6 +11,16 @@ webserver_hostname_alias:  ""
 
 apache_home_dir: "/var/www"
 
+apache_log_dir: "/var/log/apache2"
+
+# access log format [common | combined | vhost_combined]
+apache_accesslog_format: vhost_combined
+
+# You may need to add the proxy header
+apache_proxy_log: "absent"
+apache_vhc_format: 'LogFormat "%v:%p \\"%{X-Forwarded-For}i\\" %l %u %t \\"%r\\" %>s %O \\"%{Referer}i\\" \\"%{User-Agent}i\\"" vhostproxy_combined'   
+ 
+
 # ENVARS
 apache_run_user: "www-data"
 apache_run_group: "www-data"
@@ -28,8 +38,10 @@ apache_keepalive: "On"
 #MaxKeepAliveRequests 100
 apache_keepalive_max: 100
 #KeepAliveTimeout 5
-apache_keepalive_to: 5
+apache_keepalive_to: "5"
 #HostnameLookups Off
 apache_hostnamelookups: "Off"
-#LogLevel warn
+#LogLevel warn, debug, info, notice, warn, error, crit, alert, emerg
+# this can be configured at the vhost level too
 apache_loglevel: warn
+

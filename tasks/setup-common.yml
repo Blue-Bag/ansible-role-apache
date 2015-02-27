@@ -4,27 +4,34 @@
   file: path={{ item.path }} state=directory recurse=yes
   with_items:
   - {
-    path: "{{ apache_home_dir }}/default",
+    path: "{{ apache_default_site }}",
   }
   tags: apache
   
   
 - name: Apache | Create www-admin group for web
   group: 
-    name: www-admin
+    name: "{{ apache_admin_group }}"
     state: present
   tags: apache
   
+- name: Apache | Add apache www-data user
+  user: 
+    name: "{{ apache_admin_user }}"
+    groups: "{{ apache_run_group }}"
+    append: yes
+    group: "{{ apache_admin_group }}"
+  sudo: true
   
 # Note this module requires the package python-passlib  
 - name: Apache | Create User password in Auth file
   htpasswd: 
-     path="{{ apache_auth_htpasswd_file }}"
-     name="{{ item.username }}"
-     password="{{ item.password }}"
-     owner=root 
-     group=www-data 
-     mode=0640
+     path: "{{ apache_auth_htpasswd_file }}"
+     name: "{{ item.username }}"
+     password: "{{ item.password }}"
+     owner: root 
+     group: "{{ apache_admin_user }}" 
+     mode: 0640
   with_items:
     -  "{{ apache_auth_users }}"
     

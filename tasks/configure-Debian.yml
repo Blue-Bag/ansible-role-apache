@@ -33,21 +33,14 @@
     - apache
     - security
   
-- name: Apache  | Configure Apache (Debian).
+- name: Apache  | Configure Apache EnvVars (Debian).
   lineinfile: 
     dest: "{{ apache_server_root }}/envvars"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     state: present
-  with_items:
-  - {
-    regexp: "^export APACHE_RUN_USER=",
-    line: "export APACHE_RUN_USER={{ apache_run_user }}"
-  }
-  - {
-    regexp: "^export APACHE_RUN_GROUP=",
-    line: "export APACHE_RUN_GROUP={{ apache_run_group }}"
-  }
+  with_items: apache_env_vars
+  
   notify: restart apache
 
 - name: Apache | Configure Apache (Debian)
@@ -56,61 +49,48 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     state: present
-  with_items:
-  - {
-    regexp: "^Timeout",
-    line: "Timeout {{ apache_timeout }}"
-  }
-  - {
-    regexp: "^KeepAlive",
-    line: "KeepAlive {{ apache_keepalive }}"
-  }
-  - {
-    regexp: "^MaxKeepAliveRequests",
-    line: "MaxKeepAliveRequests {{ apache_keepalive_max }}"
-  }
-  - {
-    regexp: "^KeepAliveTimeout",
-    line: "KeepAliveTimeout {{ apache_keepalive_to }}"
-  }
-  - {
-    regexp: "^HostnameLookups",
-    line: "HostnameLookups {{ apache_hostnamelookups }}"
-  }
-  - {
-    regexp: "^LogLevel",
-    line: "LogLevel {{ apache_loglevel }}"
-  }
+  with_items: apache_conf_vars
   notify: restart apache
-  
+
+    
+- name: Apache | Configure Apache Logs (Debian)  
+  lineinfile: 
+    dest: "{{ apache_server_root }}/{{ apache_conf_main }}"
+    regexp: "vhostproxy_combined$"
+    insertafter: 'vhost_combined$'
+    line: "{{ apache_vhc_format }}"
+    state: "{{ apache_proxy_log }}"
+    backup: true  
+  when: apache_vhc_format is defined
+ 
 - name: Apache | Security | Server Tokens
   lineinfile: 
     dest: "{{ apache_conf_available }}/{{ apache_security_conf }}"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     state: present
-  with_items:
-  - {
-    regexp: "^ServerTokens",
-    line: "ServerTokens {{ apache_server_tokens }}"
-  }
-  - {
-    regexp: "^ServerSignature",
-    line: "ServerSignature {{ apache_server_signature }}"
-  }
-  - {
-    regexp: "^TraceEnable",
-    line: "TraceEnable {{ apache_server_trace }}"
-  }
+  with_items: apache_security_vars
+  
   notify: restart apache
 
 
-#- name: Apache | Update default host
-#  template: src=apache_default_vhost.j2 dest="{{ apache_vhost_path }}/default"
-#  tags: 
-#   - apache
-#  notify:
-#    - restart apache
+- name: Apache | Update default host
+  template: 
+    src: apache_default_vhost.conf.j2 
+    dest: "{{ apache_vhost_path }}/{{ apache_default_vhost }}"
+    backup: true
+  tags: 
+   - apache
+  notify:
+    - restart apache
+    
+- name: Apache | Put up Holding page
+  copy: 
+    src: index.html
+    dest: "{{ apache_default_site }}"
+    owner: "{{ apache_admin_user }}" 
+    group: "{{ apache_admin_group }}"
+    mode: 0644
 
 #- name: Apache | Setup default site
 #  unarchive: >

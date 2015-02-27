@@ -1,0 +1,29 @@
+<VirtualHost *:{{ http_port }}>
+  ServerAdmin {{ apache_server_admin }}
+  ServerName {{ webserver_hostname }}
+  {% if webserver_hostname_alias is defined %}
+  ServerAlias {{ webserver_hostname_alias }}
+  {% endif %}
+
+
+  DocumentRoot {{ apache_default_site }}
+
+  <Directory {{ apache_default_site }}>
+    Options FollowSymLinks MultiViews
+    AllowOverride All
+    Options -Indexes +FollowSymLinks
+ {% if apache_vhosts_version == '2.4' %}
+    Require all granted
+ {% else %}
+    Order allow,deny
+    allow from all
+ {% endif %}
+  </Directory>
+
+  LogLevel {{ apache_loglevel }}
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log {{ apache_accesslog_format }}
+
+</VirtualHost>
+    
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet

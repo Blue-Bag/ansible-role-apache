@@ -5,6 +5,8 @@ apache_conf_available: "{{ apache_server_root }}/conf-available"
 apache_conf_enabled: "{{ apache_server_root }}/conf-enabled"
 apache_security_conf: "security.conf"
 
+apache_default_vhost: "000-default.conf"
+
 apache_ports_configuration_items:
   - {
    regexp: "^Listen ",
