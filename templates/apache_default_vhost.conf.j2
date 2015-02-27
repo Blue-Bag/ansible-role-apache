@@ -19,6 +19,10 @@
     allow from all
  {% endif %}
   </Directory>
+  
+  <IfModule mod_headers.c>
+    Header always set {{ server_header }}
+  </IfModule>
 
   LogLevel {{ apache_loglevel }}
   ErrorLog ${APACHE_LOG_DIR}/error.log

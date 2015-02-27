@@ -19,6 +19,8 @@ apache_mods_enabled:
    - deflate
    - expires
    - vhost_alias
+   - headers
+   - setenvif
    
 apache_mods_disabled:
    - proxy
