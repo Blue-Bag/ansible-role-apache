@@ -1,0 +1,28 @@
+---
+
+- name: Apache | Update default host
+  template: 
+    src: apache_default_vhost.conf.j2 
+    dest: "{{ apache_vhost_available }}/{{ apache_default_vhost }}"
+    backup: true
+  tags: 
+   - apache
+  notify:
+    - restart apache
+    
+- name: Apache | Put up Holding page
+  copy: 
+    src: index.html
+    dest: "{{ apache_default_site }}"
+    owner: "{{ apache_admin_user }}" 
+    group: "{{ apache_admin_group }}"
+    mode: 0644
+
+#- name: Apache | Setup default site
+#  unarchive: >
+#   src=default-site.tar
+#   dest={{ apache_home_dir }}/
+#   creates={{ apache_home_dir }}/default/index.html
+#  tags: 
+#    - apache
+#    - defaultsite
