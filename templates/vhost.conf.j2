@@ -1,0 +1,242 @@
+<VirtualHost *:80>
+ ServerName {{ project_url }}
+ ServerAlias dickiesstreetwear.* *.dickiesstreetwear.* dickiessw.blue-bag.eu www.dickies.eu dickies.eu
+# ServerName dickiessw.blue-bag.eu
+ ServerAdmin info@blue-bag.com
+
+ DocumentRoot /var/www/dickiessw.blue-bag.eu/live/htdocs 
+  
+  <IfModule php5_module>
+    php_value newrelic.appname "Dickies: Streetwear"
+  </IfModule>
+ 
+ {% include 'vhosts-bb-optimisations001.j2' %}
+ 
+ 
+
+  Include /etc/apache2/blocked-addresses.conf
+
+# Handle requests for robots on blue-bag.eu domains
+Include /etc/apache2/default-robots.conf
+
+  <Directory />
+    Order Deny,Allow
+    Deny from all
+  </Directory> 
+
+   <Directory />
+    Order Deny,Allow
+    Deny from all
+   </Directory>
+
+  <Directory /var/www/dickiessw.blue-bag.eu/live/htdocs/.git>
+    deny from all
+  </Directory>
+ 
+   
+   <Directory /var/www/dickiessw.blue-bag.eu/live/htdocs>
+     Options FollowSymLinks
+     AllowOverride None
+
+    Include /etc/apache2/blocked-addresses.conf
+    Include /etc/apache2/blocked-agents.conf
+    Order allow,deny
+    Allow from all
+    deny from env=BlockedAddress
+    deny from env=BlockedAgent
+
+#     AuthName "Development"
+#     AuthUserFile /etc/apache2/.htpasswds/publicpasswd
+#     AuthType basic
+#     Require valid-user
+#     Order deny,allow
+#     Allow from all
+#     Allow from 81.136.249.157
+#     Allow from 127.0.0.1
+#     Allow from 46.4.112.92
+#     Satisfy Any
+
+     RewriteEngine on
+
+    #RewriteCond %{HTTP_REFERER} s\.nsdsvc\.com [NC]
+    #RewriteRule .* - [F]
+
+
+
+ #REQUIRE SUBDOMAIN
+    RewriteCond %{HTTP_HOST} !^$
+    RewriteCond %{HTTP_HOST} ^www.dickiesstreetwear.de$ [NC]
+    RewriteRule ^(.*)$ http://www.dickiesstreetwear.com/de/$1 [R=301,L]
+
+    RewriteCond %{HTTP_HOST} !^$
+    RewriteCond %{HTTP_HOST} ^www.dickiesstreetwear.es$ [NC]
+    RewriteRule ^(.*)$ http://www.dickiesstreetwear.com/es/$1 [R=301,L]
+
+    RewriteCond %{HTTP_HOST} !^$
+    RewriteCond %{HTTP_HOST} ^www.dickiesstreetwear.fr$ [NC]
+    RewriteRule ^(.*)$ http://www.dickiesstreetwear.com/fr/$1 [R=301,L]
+
+    RewriteCond %{HTTP_HOST} !^$
+    RewriteCond %{HTTP_HOST} ^www.dickiesstreetwear.it$ [NC]
+    RewriteRule ^(.*)$ http://www.dickiesstreetwear.com/it/$1 [R=301,L]
+
+   ## old dickies.eu rewrites
+   RewriteCond %{HTTP_HOST} ^www\.dickies\.eu$ [NC]
+   RewriteRule ^(.*)/hawleywood$ http://www.dickiesstreetwear.com/en/blog/hawleywood-barbers [R=301,NC,L]
+
+   RewriteCond %{HTTP_HOST} ^www\.dickies\.eu$ [NC]
+   RewriteRule ^(.*)/duane-peters http://www.dickiesstreetwear.com/en/blog/jailhouse-weld-duane-peters [R=301,NC,L]
+
+   RewriteCond %{HTTP_HOST} ^www\.dickies\.eu$ [NC]
+   RewriteRule ^(.*)/jda http://www.dickiesstreetwear.com/en/blog/jda---just-do-anything [R=301,NC,L]
+
+   RewriteCond %{HTTP_HOST} ^www\.dickies\.eu$ [NC]
+   RewriteRule ^(.*)/working-in-la http://www.dickiesstreetwear.com/en/blog/working-la---book [R=301,NC,L]
+
+   RewriteCond %{HTTP_HOST} ^www\.dickies\.eu$ [NC]
+   RewriteRule ^(.*)store/.* http://www.dickiesstreetwear.com/en/catalogue [R=301,NC,L]
+
+   RewriteCond %{HTTP_HOST} ^www\.dickies\.eu$ [NC]
+   RewriteRule ^brand-protection http://www.dickiesstreetwear.com/en/help/brand-protection [R=301,NC,L]
+
+   RewriteCond %{HTTP_HOST} ^www\.dickies\.eu$ [NC]
+   RewriteRule ^(.*)retailers/.* http://www.dickiesstreetwear.com/en/retailers [R=301,NC,L]
+
+   RewriteCond %{HTTP_HOST} ^www\.dickies\.eu$ [NC]
+   RewriteCond %{REQUEST_URI} !\.(php|png|jpg|jpeg|gif|bmp|swf|flv|css|js) [NC]
+   RewriteRule ^(.*) http://www.dickieseurope.com [R=301,NC,L]
+
+#   RewriteCond %{HTTP_HOST} ^www\.dickies\.eu$ [NC]
+#   RewriteCond %{REQUEST_URI} \.(php|png|jpg|jpeg|gif|bmp|swf|flv|css|js) [NC]
+#   RewriteRule ^(.*) http://www.dickiesstreetwear.com [R=301,NC,L]
+
+  #REQUIRE SUBDOMAIN
+   RewriteCond %{HTTP_HOST} !^$
+   RewriteCond %{HTTP_HOST} !^dickiessw\.blue-bag\.eu$ [NC]
+   RewriteCond %{HTTP_HOST} !^www\.dickiesstreetwear\.com$ [NC]
+   RewriteRule ^(.*)$ http://www.dickiesstreetwear.com/$1 [L,R=301]
+
+# put these in if developing
+#   RewriteCond %{HTTP_HOST} !^dickiessw\.blue-bag\.eu$ [NC]
+
+
+    
+    RewriteRule ^(.*)/favicon.ico$ favicon.ico [NC,L]
+
+    RewriteRule ^(.*)/robots.txt$ robots.txt [NC,L]
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} =/en/img/dickies-logo.png [NC]
+    RewriteRule ^(.*)/dickies-logo.png$ http://www.dickiesstreetwear.com/sites/all/themes/custom/dickies_sw/dickies-logo.png [R=301,NC,L]
+
+    RewriteRule ^(.*)/modules/payment/theme/icon-success.png$  sites/all/modules/contrib/commerce/modules/payment/theme/icon-success.png [NC,L]
+ 
+    ##### Security hardening ####
+    ## DENY REQUEST BASED ON REQUEST METHOD ###
+    RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK|OPTIONS|HEAD)$ [NC]
+    RewriteRule ^.*$ - [F]  
+
+# Drupal Rewrite URLs of the form 'x' to the form 'index.php?q=x'.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !=/favicon.ico [NC]
+ # RewriteCond %{REQUEST_URI} !\.(php|png|jpg|jpeg|gif|bmp|swf|flv|css|js) [NC]
+  RewriteRule ^(.*)$ index.php?q=$1 [L,QSA]
+      
+
+
+  </Directory>
+
+<Directory /var/www/dickiessw.blue-bag.eu/live/htdocs/sites/default/files>
+    # Turn off all options we don't need.
+    Options None
+    Options +FollowSymLinks
+    
+    # Set the catch-all handler to prevent scripts from being executed.
+    SetHandler Drupal_Security_Do_Not_Remove_See_SA_2006_006
+   <Files *>
+    # Override the handler again if we're run later in the evaluation list.
+    SetHandler Drupal_Security_Do_Not_Remove_See_SA_2013_003
+   </Files>
+
+   # If we know how to do it safely, disable the PHP engine entirely.
+   <IfModule mod_php5.c>
+    php_flag engine off
+   </IfModule>
+   </Directory>
+
+  <Directory /var/www/dickiessw.blue-bag.eu/tmp>
+    Deny from all
+    # Turn off all options we don't need.
+   Options None
+   Options +FollowSymLinks
+
+   # Set the catch-all handler to prevent scripts from being executed.
+   SetHandler Drupal_Security_Do_Not_Remove_See_SA_2006_006
+   <Files *>
+     # Override the handler again if we're run later in the evaluation list.
+     SetHandler Drupal_Security_Do_Not_Remove_See_SA_2013_003
+   </Files>
+
+   # If we know how to do it safely, disable the PHP engine entirely.
+   <IfModule mod_php5.c>
+     php_flag engine off
+   </IfModule>
+   </Directory>
+
+
+
+  <Directory /var/www/dickiessw.blue-bag.eu/live/htdocs/errors>
+	Options -Indexes FollowSymLinks MultiViews
+	AllowOverride None
+	Order allow,deny
+	allow from all
+   </Directory>
+   <Directory /var/www/dickiessw.blue-bag.eu/live/htdocs/images>
+	Options -Indexes FollowSymLinks MultiViews
+       AllowOverride None
+	Order allow,deny
+	allow from all
+    </Directory>
+
+
+## Custom Logging for combined logs - note they are filtered to not log images, robots.txt, cs, js etc
+	UseCanonicalName On
+	LogFormat "%V %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"" vcommon
+
+	ErrorLog /var/www/log/customer-error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+       
+	## we aren't logging images, css, js etc
+	
+	## flag robots.txt requests
+	SetEnvIf Request_URI "^/robots\.txt$" robots-request=1
+	## flag favicon requests
+	SetEnvIf Request_URI "^/favicon\.ico$" favicon-request=1
+
+	## flag image requests
+	SetEnvIf Request_URI ".(jpg|jpeg|png|gif|ico)$"  image-request=1
+
+	## flag Css and JS requests
+	#SetEnvIf Request_URI \.css css-request=1
+	#SetEnvIf Request_URI \.js js-request=1
+       
+       ## flag Css and JS requests and other static assets
+       SetEnvIf Request_URI ".(eot|js|css)$" is_static_asset=1
+
+	## set do_not_log if any of the above flags are set
+	SetEnvIf robots-request 1 do_not_log=1
+	SetEnvIf favicon-request 1 do_not_log=1
+	SetEnvIf image-request 1 do_not_log=1
+	#SetEnvIf css-request 1 do_not_log=1
+	#SetEnvIf js-request 1 do_not_log=1
+	SetEnvIf is_static_asset 1 do_not_log=1
+
+	## only log if do_not_log is not set
+	CustomLog /var/www/log/customer-access.log vcommon env=!do_not_log
+
+</VirtualHost>

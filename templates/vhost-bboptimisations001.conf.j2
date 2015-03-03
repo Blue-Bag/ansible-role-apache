@@ -1,0 +1,86 @@
+## BB Optimisations
+ Options +ExecCGI -Indexes
+ DirectoryIndex index.html index.htm index.php
+ DefaultLanguage en-gb
+ AddDefaultCharset UTF-8
+ # ServerSignature Off
+
+## Remove ETags to increase performance
+ FileETag none
+ 
+## ENVIRONMENT VARIABLES ###
+ SetEnv TZ {{ ntp_timezone }}
+ 
+
+## ERRORDOCUMENTS ###
+ ErrorDocument 401 index.html
+ ErrorDocument 403 index.html
+ ErrorDocument 404 index.html
+ ErrorDocument 500 index.html
+
+<Files favicon.ico>
+  ErrorDocument 404 "The requested file favicon.ico was not found.
+</Files>
+
+#PHP5 Support to enable zlib compression.
+<ifModule mod_php5.c>
+  php_value zlib.output_compression 16386
+</ifModule>
+
+#This section tells Apache what files to compress and send. 
+#Notice I only have .js and .css in here since
+#there's no need to compress .jpg and other already compressed files. 
+#If you want to add other file types like php and html change 
+#the FilesMatch line to this <FilesMatch "\.(css¶js¶x?html?¶jsp)$">; 
+<IfModule mod_deflate.c>
+ <FilesMatch "\.(js|css|x?html)$">
+  SetOutputFilter DEFLATE
+ </FilesMatch>
+</IfModule>
+
+## ALTERNATE EXPIRES CACHING ###
+## Requires mod_expires to be enabled.
+<IfModule mod_expires.c>
+  # Enable expirations.
+  ExpiresActive {% if stage == 'prod' %} On {% else %} Off {% endif %}
+  ExpiresDefault A1209600
+  ### expires after a month in the client's cache
+  ExpiresByType image/x-icon A2592000
+  ExpiresByType image/gif A2592000
+  ExpiresByType image/png A2592000
+  ExpiresByType image/jpg A2592000
+  ExpiresByType image/x-icon A2592000
+  #ExpiresByType application/pdf A604800
+  #ExpiresByType application/x-javascript A2592000
+  ExpiresByType text/plain A2592000
+  ExpiresByType text/html A300
+  <FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
+    ExpiresActive Off
+  </FilesMatch>
+  # Cache all files for 2 weeks after access (A).
+  ### expires after 4.8 hours
+  ExpiresByType text/css A17200
+</IfModule>
+
+#   Include /etc/apache2/whitelist-addresses.conf
+
+# require password for admin files or allow from an IP
+<FilesMatch "([^index].*\.php|[^robots].*\.txt)$">
+   AuthName "Restricted"
+   AuthUserFile {{ apache_auth_htpasswd_file }}
+   AuthType basic
+   Require valid-user
+   {% if apache_vhosts_version == '2.4' %}
+     {% for entry in incoming_ip_whitelist %}
+   Require ip {{ entry.ip }}
+     {% endfor %}  
+   {% else %}
+   Order deny,allow
+   Deny from all
+   Allow from 127.0.0.1
+     {% for entry in incoming_ip_whitelist %}
+   Allow from {{ entry.ip }}
+     {% endfor %}
+    Satisfy Any
+   {% endif %}
+</FilesMatch>

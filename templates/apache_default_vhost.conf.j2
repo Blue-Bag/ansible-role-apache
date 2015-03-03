@@ -24,9 +24,14 @@
     Header always set {{ server_header }}
   </IfModule>
 
+
   LogLevel {{ apache_loglevel }}
   ErrorLog ${APACHE_LOG_DIR}/error.log
   CustomLog ${APACHE_LOG_DIR}/access.log {{ apache_accesslog_format }}
+
+ {% include 'vhost-bboptimisations001.conf.j2' %}
+
+
 
 </VirtualHost>
     

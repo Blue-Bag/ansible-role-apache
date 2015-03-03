@@ -12,11 +12,13 @@
     
 - name: Apache | Put up Holding page
   copy: 
-    src: index.html
+    src: "{{ item }}"
     dest: "{{ apache_default_site }}"
     owner: "{{ apache_admin_user }}" 
     group: "{{ apache_admin_group }}"
     mode: 0644
+  with_fileglob:
+    - default-site/*   
 
 #- name: Apache | Setup default site
 #  unarchive: >
