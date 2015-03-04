@@ -31,7 +31,7 @@
      password: "{{ item.password }}"
      owner: root 
      group: "{{ apache_admin_user }}" 
-     mode: 0640
+     mode: 0644
   with_items:
     -  "{{ apache_auth_users }}"
     
