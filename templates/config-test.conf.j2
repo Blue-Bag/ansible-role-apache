@@ -1,0 +1,5 @@
+#{{ ansible_managed }} 
+Include {{ apache_conf_available }}
+Include {{ apache_mods_enabled }}/*.conf
+Include {{ apache_mods_enabled }}/*.load
+Include {{ apache_conf_to_test }}

@@ -5,10 +5,43 @@
     src: apache_default_vhost.conf.j2 
     dest: "{{ apache_vhost_available }}/{{ apache_default_vhost }}"
     backup: true
-  tags: 
-   - apache
+  #  validate: 'apachectl -t -f %s'
+ tags: [apache] 
   notify:
     - restart apache
+    
+    
+- name: Set fact for config to test
+  set_fact:
+    apache_conf_to_test:  "{{ apache_vhost_available }}/{{ apache_default_vhost }}"
+
+- name: Apache | test Updated hosts
+  template: 
+     src: config-test.conf.j2 
+     dest: "/tmp/config-test.conf"
+     mode: 0644
+     owner: root
+     group: root
+     validate: 'apachectl -t -f %s'
+  register: apache_result
+  when: vhost_updated|changed
+  ignore_errors: yes
+  sudo: true
+  tags: [apache] 
+
+- name: Clear out test file
+  file: 
+    path: "/tmp/config-test.conf"
+    state: absent
+  sudo: true
+  when:  apache_result|success
+  tags: [apache] 
+
+- name: Apache | enable host success
+  fail: msg="Apache configuration is invalid. Please check before re-running the playbook."
+  when: apache_result|failed
+  tags: [apache] 
+  
     
 - name: Apache | Put up Holding page
   copy: 
