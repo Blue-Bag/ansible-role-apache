@@ -18,7 +18,7 @@ apache_pkgs:
    - apache2-utils
    - python-passlib
    
-apache_enabled_mods:
+apache_enable_mods:
    - rewrite
    - deflate
    - expires
@@ -26,7 +26,7 @@ apache_enabled_mods:
    - headers
    - setenvif
    
-apache_disabled_mods:
+apache_disable_mods:
    - proxy
    - proxy_ftp
    - proxy_http

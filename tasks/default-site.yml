@@ -6,7 +6,8 @@
     dest: "{{ apache_vhost_available }}/{{ apache_default_vhost }}"
     backup: true
   #  validate: 'apachectl -t -f %s'
- tags: [apache] 
+  tags: [apache] 
+  register: vhost_updated
   notify:
     - restart apache
     
@@ -24,7 +25,7 @@
      group: root
      validate: 'apachectl -t -f %s'
   register: apache_result
-  when: vhost_updated|changed
+  when: vhost_updated.changed
   ignore_errors: yes
   sudo: true
   tags: [apache] 

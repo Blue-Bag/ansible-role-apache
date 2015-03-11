@@ -7,7 +7,7 @@ apache_listen_port_ssl: 443
 apache_server_admin: "{{ server_from_email }}"
 
 webserver_hostname: "{{ inventory_hostname }}"
-webserver_hostname_alias:  ""
+#webserver_hostname_alias: 
 
 apache_home_dir: "/var/www"
 
