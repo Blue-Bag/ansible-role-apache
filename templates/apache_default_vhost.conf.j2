@@ -10,9 +10,8 @@
   DocumentRoot {{ apache_default_site }}
 
   <Directory {{ apache_default_site }}>
-    Options FollowSymLinks MultiViews
-    AllowOverride All
-    Options -Indexes +FollowSymLinks
+    AllowOverride None
+    Options -Indexes +FollowSymLinks -MultiViews
  {% if apache_vhosts_version == '2.4' %}
     Require all granted
  {% else %}
@@ -27,8 +26,9 @@
 
 
   LogLevel {{ apache_loglevel }}
-  ErrorLog ${APACHE_LOG_DIR}/error.log
-  CustomLog ${APACHE_LOG_DIR}/access.log {{ apache_accesslog_format }}
+ # ErrorLog ${APACHE_LOG_DIR}/error.log
+ # CustomLog ${APACHE_LOG_DIR}/access.log {{ apache_accesslog_format }}
+ 
 
  {% include 'vhost-bboptimisations001.conf.j2' %}
 

@@ -7,7 +7,7 @@
  DocumentRoot /var/www/dickiessw.blue-bag.eu/live/htdocs 
   
   <IfModule php5_module>
-    php_value newrelic.appname "Dickies: Streetwear"
+    php_value newrelic.appname "{{ proj_long_name }} - {{ stage }}"
   </IfModule>
  
  {% include 'vhosts-bb-optimisations001.j2' %}
@@ -24,10 +24,6 @@ Include /etc/apache2/default-robots.conf
     Deny from all
   </Directory> 
 
-   <Directory />
-    Order Deny,Allow
-    Deny from all
-   </Directory>
 
   <Directory /var/www/dickiessw.blue-bag.eu/live/htdocs/.git>
     deny from all
