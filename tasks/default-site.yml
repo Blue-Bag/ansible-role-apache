@@ -8,9 +8,7 @@
   #  validate: 'apachectl -t -f %s'
   tags: [apache] 
   register: vhost_updated
-  notify:
-    - restart apache
-    
+
     
 - name: Set fact for config to test
   set_fact:
@@ -36,6 +34,8 @@
     state: absent
   sudo: true
   when:  apache_result|success
+  notify:
+    - restart apache
   tags: [apache] 
 
 - name: Apache | enable host success
