@@ -1,0 +1,4 @@
+#{{ ansible_managed }}
+{% for group in apache_auth_groups %}
+{{ group.groupname }}: {{ group.members }}
+{% endfor %} 
