@@ -20,6 +20,7 @@ apache_accesslog_format: vhost_combined
 apache_proxy_log: "absent"
 apache_vhc_format: 'LogFormat "%v:%p \\"%{X-Forwarded-For}i\\" %l %u %t \\"%r\\" %>s %O \\"%{Referer}i\\" \\"%{User-Agent}i\\"" vhostproxy_combined'   
  
+apache_server_status_enabled: no
 
 # ENVARS
 apache_run_user: "www-data"
@@ -45,3 +46,16 @@ apache_hostnamelookups: "Off"
 # this can be configured at the vhost level too
 apache_loglevel: warn
 
+#-------------  Authorisation users and groups
+apache_auth_users: []
+ #- {
+ #   username: "fred",
+ #   password: "getfromvault",
+ #   group: "agroup"
+ # }
+ 
+apache_auth_groups: []
+# - {
+ #  groupname: agroup,
+#   members: "fred"
+# }
