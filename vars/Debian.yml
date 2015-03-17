@@ -10,6 +10,8 @@ apache_mods_available: "/etc/apache2/mods-available"
 apache_mods_enabled: '/etc/apache2/mods-enabled'
 
 apache_auth_htpasswd_file: "/etc/apache2/.htpasswds/passwdfile"
+apache_auth_htgroup_file: "/etc/apache2/.htpasswds/groupfile"
+
 apache_conf_main: "apache2.conf"
 
 apache_pkgs:
@@ -25,10 +27,21 @@ apache_enable_mods:
    - vhost_alias
    - headers
    - setenvif
+   - auth_basic
+   - authn_core
+   - authn_file   
+   - authz_core
+   - authz_groupfile
+   - authz_user
+   - authz_host
+   - reqtimeout
+
    
 apache_disable_mods:
    - proxy
    - proxy_ftp
    - proxy_http
    - proxy_connect
+   - autoindex
+
    
