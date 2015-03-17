@@ -38,8 +38,14 @@
 # Todo write the authgroup file
 # adding relevant users to groups
 # see https://www.linode.com/docs/websites/authbased-access-control-with-apache    
-    
-    
+- name: Apache | Sertup auth groups
+  template: 
+    src: auth_htgroup.j2
+    dest: "{{ apache_auth_htgroup_file }}" 
+    owner: root
+    group: root
+    mode: 0644
+  sudo: true  
 
 # Apache user www-data is created on install of apache
 #- name: Apache | Add apache www-data user
