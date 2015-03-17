@@ -8,6 +8,24 @@
 
 
   DocumentRoot {{ apache_default_site }}
+  
+  {% if apache_server_status_enabled %}
+  <Location /server-status>
+    SetHandler server-status
+    {% if apache_vhosts_version == '2.4' %}
+     {% for entry in incoming_ip_whitelist %}
+   Require ip {{ entry.ip }}
+     {% endfor %}  
+   {% else %}
+   Order deny,allow
+   Deny from all
+   Allow from 127.0.0.1
+     {% for entry in incoming_ip_whitelist %}
+   Allow from {{ entry.ip }}
+     {% endfor %}
+   {% endif %}
+</Location>
+{% endif %}
 
   <Directory {{ apache_default_site }}>
     AllowOverride None
