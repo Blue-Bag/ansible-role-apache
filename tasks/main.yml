@@ -31,6 +31,9 @@
 
 - include: configure-RedHat.yml
   when: ansible_os_family == 'RedHat'
+  
+- include: setup-ssl.yml
+  when: ssl_enabled  
 
 - include: default-site.yml
 

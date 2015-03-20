@@ -11,6 +11,9 @@
 ## ENVIRONMENT VARIABLES ###
  SetEnv TZ {{ ntp_timezone }}
  
+<IfModule mod_headers.c>
+    Header always set {{ server_header }}
+</IfModule> 
 
 ## ERRORDOCUMENTS ###
  ErrorDocument 401 /index.html

@@ -19,7 +19,7 @@ apache_pkgs:
    - apache2-mpm-prefork
    - apache2-utils
    - python-passlib
-   
+
 apache_enable_mods:
    - rewrite
    - deflate
@@ -35,6 +35,7 @@ apache_enable_mods:
    - authz_user
    - authz_host
    - reqtimeout
+   - ssl
 
    
 apache_disable_mods:
@@ -43,5 +44,3 @@ apache_disable_mods:
    - proxy_http
    - proxy_connect
    - autoindex
-
-   

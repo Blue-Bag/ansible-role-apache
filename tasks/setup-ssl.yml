@@ -1,0 +1,62 @@
+---
+
+- name: Setup default mod_ssl config
+  template:
+    src: apache_ssl.conf.j2
+    dest: "{{ apache_mods_available }}/ssl.conf"
+    owner: root
+    group: root
+    mode: 0644
+  sudo: true
+  tags: [ssl]
+
+- name: Ensure ssl-certs group is present
+  group: 
+    name: ssl-cert
+    state: present
+  sudo: yes
+  tags: [ssl]
+
+- name: Make sure Webserver run user is in ssl-cert group
+  user: 
+    name: "{{ apache_run_user }}"
+    groups: ssl-cert
+    append: true
+  sudo: yes
+  tags: [ssl] 
+
+- name: Ensure the ssl certs dir exists
+  file: 
+    path: "{{ item.path }}"
+    mode: "{{ item.mode }}"
+    state: directory
+    recurse: yes
+    owner: root
+  with_items:
+    - {
+       path: '/etc/ssl/certs',
+       mode: 755
+       }
+    - {
+       path: '/etc/ssl/private',
+       mode: 700
+       }
+  sudo: yes
+  tags: [ssl]
+  
+- name: Put certificate files in place
+  copy: 
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    group: ssl-cert
+  with_items:
+    - "{{ ssl_certificate }}"
+    - "{{ ssl_certificate_key }}"
+    - "{{ ssl_certificate_chain|default([]) }}"
+  sudo: yes
+  tags: [ssl]
+  notify: restart apache 
+  
+  
+  
