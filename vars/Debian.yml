@@ -44,3 +44,6 @@ apache_disable_mods:
    - proxy_http
    - proxy_connect
    - autoindex
+   
+mysql_packages:
+  - mysql-client

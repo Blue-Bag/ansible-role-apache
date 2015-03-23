@@ -5,3 +5,8 @@
 - name: Debian | Ensure Apache is installed.
   apt: "name={{ item }} state=installed"
   with_items: apache_pkgs
+  
+- name: Ensure MySQL packages are installed (client).
+  apt: "name={{ item }} state=installed"
+  with_items: mysql_packages
+  sudo: true
