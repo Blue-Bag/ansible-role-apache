@@ -38,7 +38,7 @@
 # Todo write the authgroup file
 # adding relevant users to groups
 # see https://www.linode.com/docs/websites/authbased-access-control-with-apache    
-- name: Apache | Sertup auth groups
+- name: Apache | Setup auth groups
   template: 
     src: auth_htgroup.j2
     dest: "{{ apache_auth_htgroup_file }}" 
