@@ -35,11 +35,11 @@
   with_items:
     - {
        path: '/etc/ssl/certs',
-       mode: 755
+       mode: '0755'
        }
     - {
        path: '/etc/ssl/private',
-       mode: 700
+       mode: '0700'
        }
   sudo: yes
   tags: [ssl]
