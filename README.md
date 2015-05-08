@@ -34,6 +34,14 @@ Including an example of how to use your role (for instance, with variables passe
       roles:
          - { role: username.rolename, x: 42 }
 
+Note:
+-----------
+Stapling for SSL
+https://www.digitalocean.com/community/tutorials/how-to-configure-ocsp-stapling-on-apache-and-nginx
+
+Apache session cache / reuse
+http://serverfault.com/questions/400089/apache2-sslsessioncache-running-but-not-working
+
 License
 -------
 
