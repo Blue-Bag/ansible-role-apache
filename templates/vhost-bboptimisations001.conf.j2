@@ -7,13 +7,13 @@
 
 ## Remove ETags to increase performance
  FileETag none
- 
+
 ## ENVIRONMENT VARIABLES ###
  SetEnv TZ {{ ntp_timezone }}
- 
+
 <IfModule mod_headers.c>
     Header always set {{ server_header }}
-</IfModule> 
+</IfModule>
 
 ## ERRORDOCUMENTS ###
  ErrorDocument 401 /index.html
@@ -30,11 +30,11 @@
   php_value zlib.output_compression 16386
 </ifModule>
 
-#This section tells Apache what files to compress and send. 
+#This section tells Apache what files to compress and send.
 #Notice I only have .js and .css in here since
-#there's no need to compress .jpg and other already compressed files. 
-#If you want to add other file types like php and html change 
-#the FilesMatch line to this <FilesMatch "\.(css¶js¶x?html?¶jsp)$">; 
+#there's no need to compress .jpg and other already compressed files.
+#If you want to add other file types like php and html change
+#the FilesMatch line to this <FilesMatch "\.(css¶js¶x?html?¶jsp)$">;
 <IfModule mod_deflate.c>
  <FilesMatch "\.(js|css|x?html)$">
   SetOutputFilter DEFLATE
@@ -45,7 +45,7 @@
 ## Requires mod_expires to be enabled.
 <IfModule mod_expires.c>
   # Enable expirations.
-  ExpiresActive {% if stage == 'prod' %} On {% else %} Off {% endif %}
+  ExpiresActive {% 'On' if stage == 'live' else 'Off' %}
   ExpiresDefault A1209600
   ### expires after a month in the client's cache
   ExpiresByType image/x-icon A2592000
@@ -76,7 +76,7 @@
    {% if apache_vhosts_version == '2.4' %}
      {% for entry in incoming_ip_whitelist %}
    Require ip {{ entry.ip }}
-     {% endfor %}  
+     {% endfor %}
    {% else %}
    Order deny,allow
    Deny from all
