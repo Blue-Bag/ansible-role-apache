@@ -2,20 +2,20 @@
 <VirtualHost *:{{ http_port }}>
   ServerAdmin {{ apache_server_admin }}
   ServerName {{ webserver_hostname }}
-  {% if webserver_hostname_alias is defined %}
+  {% if webserver_hostname_alias is defined and webserver_hostname_alias|length > 0 %}%}
   ServerAlias {{ webserver_hostname_alias }}
   {% endif %}
 
 
   DocumentRoot {{ apache_default_site }}
-  
+
   {% if apache_server_status_enabled %}
   <Location /server-status>
     SetHandler server-status
     {% if apache_vhosts_version == '2.4' %}
      {% for entry in incoming_ip_whitelist %}
    Require ip {{ entry.ip }}
-     {% endfor %}  
+     {% endfor %}
    {% else %}
    Order deny,allow
    Deny from all
@@ -37,18 +37,18 @@
     allow from all
  {% endif %}
   </Directory>
-  
+
 
 
   LogLevel {{ apache_loglevel }}
  # ErrorLog ${APACHE_LOG_DIR}/error.log
  # CustomLog ${APACHE_LOG_DIR}/access.log {{ apache_accesslog_format }}
- 
+
 
  {% include 'vhost-bboptimisations001.conf.j2' %}
 
 
 
 </VirtualHost>
-    
+
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
