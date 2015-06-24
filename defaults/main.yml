@@ -31,6 +31,9 @@ apache_server_status_enabled: no
 apache_run_user: "www-data"
 apache_run_group: "www-data"
 
+apache_admin_user: "www-admin"
+apache_admin_group: "www-admin"
+
 # Vars for conf.d/security
 apache_server_tokens: "PROD"
 apache_server_signature: "Off"
