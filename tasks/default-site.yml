@@ -1,22 +1,22 @@
 ---
 
 - name: Apache | Update default host
-  template: 
-    src: apache_default_vhost.conf.j2 
+  template:
+    src: apache_default_vhost.conf.j2
     dest: "{{ apache_vhost_available }}/{{ apache_default_vhost }}"
     backup: true
   #  validate: 'apachectl -t -f %s'
-  tags: [apache] 
+  tags: [apache]
   register: vhost_updated
 
-    
+
 - name: Set fact for config to test
   set_fact:
     apache_conf_to_test:  "{{ apache_vhost_available }}/{{ apache_default_vhost }}"
 
 - name: Apache | test Updated hosts
-  template: 
-     src: config-test.conf.j2 
+  template:
+     src: config-test.conf.j2
      dest: "/tmp/config-test.conf"
      mode: 0644
      owner: root
@@ -26,39 +26,39 @@
   when: vhost_updated.changed
   ignore_errors: yes
   sudo: true
-  tags: [apache] 
+  tags: [apache]
 
 - name: Clear out test file
-  file: 
+  file:
     path: "/tmp/config-test.conf"
     state: absent
   sudo: true
   when:  apache_result|success
   notify:
     - restart apache
-  tags: [apache] 
+  tags: [apache]
 
 - name: Apache | enable host success
   fail: msg="Apache configuration is invalid. Please check before re-running the playbook."
   when: apache_result|failed
-  tags: [apache] 
-  
-    
+  tags: [apache]
+
+
 - name: Apache | Put up Holding page
-  copy: 
+  copy:
     src: "{{ item }}"
     dest: "{{ apache_default_site }}"
-    owner: "{{ apache_admin_user }}" 
+    owner: "{{ apache_admin_user }}"
     group: "{{ apache_admin_group }}"
     mode: 0644
   with_fileglob:
-    - default-site/*   
+    - { apache_default_site}/*
 
 #- name: Apache | Setup default site
 #  unarchive: >
 #   src=default-site.tar
 #   dest={{ apache_home_dir }}/
 #   creates={{ apache_home_dir }}/default/index.html
-#  tags: 
+#  tags:
 #    - apache
 #    - defaultsite
