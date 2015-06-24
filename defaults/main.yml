@@ -4,9 +4,14 @@
 apache_listen_port: 80
 apache_listen_port_ssl: 443
 
+# default site
+# could use a template or fileglob
+#path to files for the default site
+apache_default_site: "default-site"
+
 apache_server_admin: "{{ server_from_email }}"
 
-webserver_hostname: "{{ inventory_hostname }}"
+apache_webserver_hostname: "{{ inventory_hostname }}"
 #webserver_hostname_alias:
 
 apache_home_dir: "/var/www"
