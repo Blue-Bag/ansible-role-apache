@@ -29,7 +29,7 @@ apache_enable_mods:
    - setenvif
    - auth_basic
    - authn_core
-   - authn_file   
+   - authn_file
    - authz_core
    - authz_groupfile
    - authz_user
@@ -37,13 +37,13 @@ apache_enable_mods:
    - reqtimeout
    - ssl
 
-   
+
 apache_disable_mods:
    - proxy
    - proxy_ftp
    - proxy_http
    - proxy_connect
-   - autoindex
-   
+#   - autoindex
+
 mysql_packages:
   - mysql-client
