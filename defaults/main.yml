@@ -9,7 +9,7 @@ apache_listen_port_ssl: 443
 #path to files for the default site
 apache_default_site: "default-site"
 
-apache_server_admin: "{{ server_from_email }}"
+apache_server_admin: "info@example.com"
 
 apache_webserver_hostname: "{{ inventory_hostname }}"
 #apache_webserver_hostname_alias:
@@ -72,6 +72,7 @@ apache_auth_groups: []
 #   members: "fred"
 # }
 
+# used for auth protection
 apache_ip_whitelist: []
 
 ssl_enabled: no
