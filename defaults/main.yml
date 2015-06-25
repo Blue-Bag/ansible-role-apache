@@ -12,7 +12,11 @@ apache_default_site: "default-site"
 apache_server_admin: "{{ server_from_email }}"
 
 apache_webserver_hostname: "{{ inventory_hostname }}"
-#webserver_hostname_alias:
+#apache_webserver_hostname_alias:
+
+apache_timezone: "Europe/London"
+apache_server_header: "inventory_hostname"
+apache_server_stage: "live"
 
 apache_home_dir: "/var/www"
 
@@ -67,6 +71,8 @@ apache_auth_groups: []
  #  groupname: agroup,
 #   members: "fred"
 # }
+
+apache_ip_whitelist: []
 
 ssl_enabled: no
 #ssl_certificate: []
