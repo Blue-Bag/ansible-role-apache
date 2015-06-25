@@ -5,17 +5,15 @@ galaxy_info:
   company: "Blue-Bag Ltd"
   license: MIT / BSD
   min_ansible_version: 1.2
-
   platforms:
-
   - name: Ubuntu
     versions:
-     - all
-     - trusty
+    - all
+    - trusty
   - name: Debian
+    versions:
     - squeeze
     - wheezy
   categories:
     - web
 dependencies: []
-
