@@ -1,9 +1,9 @@
 # {{ ansible_managed }}
 <VirtualHost *:{{ http_port }}>
   ServerAdmin {{ apache_server_admin }}
-  ServerName {{ webserver_hostname }}
-  {% if webserver_hostname_alias is defined and webserver_hostname_alias|length > 0 %}%}
-  ServerAlias {{ webserver_hostname_alias }}
+  ServerName {{ apache_webserver_hostname }}
+  {% if apache_webserver_hostname_alias is defined and apache_webserver_hostname_alias|length > 0 %}
+  ServerAlias {{ apache_webserver_hostname_alias }}
   {% endif %}
 
 
@@ -45,7 +45,7 @@
  # CustomLog ${APACHE_LOG_DIR}/access.log {{ apache_accesslog_format }}
 
 
- {% include 'vhost-bboptimisations001.conf.j2' %}
+ {% include 'vhost_bboptimisations001.conf.j2' %}
 
 
 

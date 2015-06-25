@@ -12,7 +12,7 @@
  SetEnv TZ {{ ntp_timezone }}
 
 <IfModule mod_headers.c>
-    Header always set {{ server_header }}
+    Header always set {{ apache_server_header }}
 </IfModule>
 
 ## ERRORDOCUMENTS ###
@@ -45,7 +45,8 @@
 ## Requires mod_expires to be enabled.
 <IfModule mod_expires.c>
   # Enable expirations.
-  ExpiresActive {% 'On' if stage == 'live' else 'Off' %}
+
+  ExpiresActive {{ 'On' if apache_server_stage == 'live' else 'Off' }}
   ExpiresDefault A1209600
   ### expires after a month in the client's cache
   ExpiresByType image/x-icon A2592000
@@ -74,14 +75,14 @@
    AuthType basic
    Require valid-user
    {% if apache_vhosts_version == '2.4' %}
-     {% for entry in incoming_ip_whitelist %}
+     {% for entry in apache_ip_whitelist %}
    Require ip {{ entry.ip }}
      {% endfor %}
    {% else %}
    Order deny,allow
    Deny from all
    Allow from 127.0.0.1
-     {% for entry in incoming_ip_whitelist %}
+     {% for entry in apache_ip_whitelist %}
    Allow from {{ entry.ip }}
      {% endfor %}
     Satisfy Any
