@@ -52,7 +52,7 @@
     group: "{{ apache_admin_group }}"
     mode: 0644
   with_fileglob:
-    - "{{ apache_default_site}}/*"
+    - "{{ apache_default_site_files}}/*"
 
 #- name: Apache | Setup default site
 #  unarchive: >
