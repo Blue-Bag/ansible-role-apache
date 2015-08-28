@@ -1,5 +1,5 @@
 # {{ ansible_managed }}
-<VirtualHost *:{{ http_port }}>
+<VirtualHost *:{{ apache_listen_port }}>
   ServerAdmin {{ apache_server_admin }}
   ServerName {{ apache_webserver_hostname }}
   {% if apache_webserver_hostname_alias is defined and apache_webserver_hostname_alias|length > 0 %}
