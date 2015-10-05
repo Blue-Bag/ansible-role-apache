@@ -10,9 +10,14 @@
 # Setup/install tasks.
 # Base install of Apache
 
+- name: Define apache_packages.
+  set_fact:
+    apache_packages: "{{ __apache_packages | list }}"
+  when: apache_packages is not defined
+
 - include: setup-Debian.yml
   when: ansible_os_family == 'Debian'
-  
+
 - include: setup-RedHat.yml
   when: ansible_os_family == 'RedHat'
 
@@ -31,9 +36,9 @@
 
 - include: configure-RedHat.yml
   when: ansible_os_family == 'RedHat'
-  
+
 - include: setup-ssl.yml
-  when: ssl_enabled  
+  when: ssl_enabled
 
 - include: default-site.yml
 

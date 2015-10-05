@@ -14,7 +14,7 @@ apache_auth_htgroup_file: "/etc/apache2/.htpasswds/groupfile"
 
 apache_conf_main: "apache2.conf"
 
-apache_pkgs:
+__apache_packages:
    - apache2
    - apache2-mpm-prefork
    - apache2-utils
@@ -45,5 +45,5 @@ apache_disable_mods:
    - proxy_connect
 #   - autoindex
 
-mysql_packages:
+apache_mysql_packages:
   - mysql-client

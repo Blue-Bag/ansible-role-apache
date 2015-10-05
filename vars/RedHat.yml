@@ -9,21 +9,23 @@ apache_auth_htpasswd_file: "/etc/httpd/.htpasswds/passwdfile"
 apache_conf_main: "httpd.conf"
 
 
-apache_pkgs:
+__apache_packages:
   - httpd
   - httpd-devel
   - mod_ssl
   - openssh
-   
+
 apache_mods_enabled:
    - rewrite
    - deflate
    - expires
    - vhost_alias
-   
+
 apache_mods_disabled:
    - proxy
    - proxy_ftp
    - proxy_http
    - proxy_connect
-   
+
+apache_mysql_packages:
+  - mysql-client
