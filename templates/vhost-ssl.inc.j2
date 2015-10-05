@@ -1,0 +1,40 @@
+
+SSLEngine on
+SSLOptions +StrictRequire
+
+
+{% if ssl_certificate is defined %}
+{% for cert in ssl_certificate %}
+SSLCertificateFile {{ cert.dest }}
+{% endfor %}
+{% endif %}
+
+{% if ssl_certificate_key is defined %}
+{% for key in ssl_certificate_key %}
+SSLCertificateKeyFile {{ key.dest }}
+{% endfor %}
+{% endif %}
+
+{% if ssl_certificate_chain is defined %}
+{% for chain in ssl_certificate_chain %}
+{% if apache_vhosts_version == '2.4' %}
+SSLCACertificateFile {{ chain.dest }}
+{% else %}
+SSLCertificateChainFile {{ chain.dest }}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+<FilesMatch "\.(cgi|shtml|phtml|php)$">
+    SSLOptions +StdEnvVars
+</FilesMatch>
+<Directory /usr/lib/cgi-bin>
+    SSLOptions +StdEnvVars
+</Directory>
+
+
+BrowserMatch "MSIE [2-6]" \
+   nokeepalive ssl-unclean-shutdown \
+   downgrade-1.0 force-response-1.0
+# MSIE 7 and newer should be able to use keepalive
+BrowserMatch "MSIE [17-9]" ssl-unclean-shutdown

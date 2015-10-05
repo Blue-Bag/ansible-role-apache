@@ -1,13 +1,30 @@
 # {{ ansible_managed }}
-<VirtualHost *:{{ apache_listen_port }}>
+{% if ssl_enabled %}
+{% include 'vhost80-443.j2' %}
+{% endif %}
+
+{% if ssl_enabled %}
+<IfModule mod_ssl.c>
+{% endif %}
+<VirtualHost *:{{ apache_listen_port_ssl if ssl_enabled else apache_listen_port }}>
   ServerAdmin {{ apache_server_admin }}
   ServerName {{ apache_webserver_hostname }}
   {% if apache_webserver_hostname_alias is defined and apache_webserver_hostname_alias|length > 0 %}
   ServerAlias {{ apache_webserver_hostname_alias }}
   {% endif %}
 
-
+{% if host_redirect_to_main %}
+<If "%{HTTP_HOST} != '{{ apache_webserver_hostname }}'">
+  Redirect "/" "http{{ 's' if ssl_enabled else '' }}://{{ apache_webserver_hostname }}/"
+</If>
+{% endif %}
   DocumentRoot {{ apache_default_site }}
+
+
+
+{% if ssl_enabled %}
+ {% include 'vhost-ssl.inc.j2' %}
+{% endif %}
 
   {% if apache_server_status_enabled %}
   <Location /server-status>
@@ -29,13 +46,15 @@
 
   <Directory {{ apache_default_site }}>
     AllowOverride None
-    Options -Indexes +FollowSymLinks -MultiViews
+    Options -Indexes +SymLinksIfOwnerMatch -MultiViews
  {% if apache_vhosts_version == '2.4' %}
     Require all granted
  {% else %}
     Order allow,deny
     allow from all
  {% endif %}
+
+
   </Directory>
 
 
@@ -48,7 +67,8 @@
  {% include 'vhost_bboptimisations001.conf.j2' %}
 
 
-
 </VirtualHost>
-
+{% if ssl_enabled %}
+</IfModule>
+{% endif %}
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet

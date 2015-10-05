@@ -4,6 +4,7 @@
 apache_listen_port: 80
 apache_listen_port_ssl: 443
 
+apache_remote_db: True
 # default site
 # could use a template or fileglob
 #path to files for the default site
@@ -20,6 +21,7 @@ apache_server_stage: "live"
 
 apache_home_dir: "/var/www"
 apache_default_site: "{{ apache_home_dir }}/default"
+host_redirect_to_main: false
 
 
 apache_log_dir: "/var/log/apache2"

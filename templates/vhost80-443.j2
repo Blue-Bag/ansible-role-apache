@@ -1,0 +1,6 @@
+<VirtualHost *:{{ apache_listen_port }}>
+ServerAdmin {{ server_from_email }}
+  ServerName {{ apache_webserver_hostname }}
+
+  Redirect permanent / https://{{ apache_webserver_hostname }}/
+</VirtualHost>
