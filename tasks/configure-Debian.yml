@@ -3,7 +3,7 @@
 - name: Apache | change port configuration
   template:
     src: apache_ports.conf.j2
-    dest: /etc/apache2/ports.conf
+    dest: {{ apache_server_root }}/ports.conf
 
 - name: Apache | change ServerName configuration
   template:
