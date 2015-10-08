@@ -11,8 +11,11 @@
 
 - name: Apache | Create www-admin group for web
   group:
-    name: "{{ apache_admin_group }}"
+    name: "{{ item }}"
     state: present
+  with_items:
+    - "{{ apache_admin_group }}"
+    - "{{ apache_run_group }}"
   tags: apache
 
 - name: Apache | Add apache www-data user
