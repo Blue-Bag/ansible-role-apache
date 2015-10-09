@@ -1,0 +1,65 @@
+---
+
+- name: Setup Vhosts folders
+  file: 
+    path: "{{ apache_server_root }}/{{ item }}" 
+    state: directory
+    recurse: yes
+  with_items:
+    - "{{ apache_vhost_available }}"
+    - "{{ apache_vhost_enabled }}"
+  tags: apache
+
+- name: Configure Apache.
+  lineinfile:
+    dest: "{{ apache_server_root }}/conf/{{ apache_daemon }}.conf"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items: 
+    - "{{apache_ports_configuration_items}}"
+    - "{{apache_env_vars}}"
+    - "{{ apache_conf_vars }}"
+    - "{{ apache_security_vars }}"
+  notify: restart apache
+
+
+# this needs to be replaced with a lineinfile method 
+# - name: Apache | Enable Apache mods.
+#   apache2_module: state=present name={{ item }}
+#   with_items: apache_enable_mods
+#   notify: restart apache
+
+# - name: Apache | Disable Apache Mods
+#   apache2_module: state=absent name={{ item }}
+#   with_items: apache_disable_mods
+#   notify: restart apache
+#   tags:
+#     - apache
+#     - security
+
+# - name: Apache  | Configure Apache EnvVars (Debian).
+#   lineinfile:
+#     dest: "{{ apache_server_root }}/envvars"
+#     regexp: "{{ item.regexp }}"
+#     line: "{{ item.line }}"
+#     state: present
+#   with_items: apache_env_vars
+
+  # notify: restart apache
+
+
+- name: Apache | Configure Apache Logs (Debian)
+  lineinfile:
+    dest: "{{ apache_server_root }}/conf/{{ apache_daemon }}.conf"
+    regexp: "vhostproxy_combined$"
+    insertafter: 'combined$'
+    line: "{{ apache_vhc_format }}"
+    state: "{{ apache_proxy_log }}"
+    backup: true
+  when: apache_vhc_format is defined
+
+
+
+
+
