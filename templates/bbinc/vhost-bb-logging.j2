@@ -1,0 +1,30 @@
+## flag robots.txt requests
+  SetEnvIf Request_URI "^/robots\.txt$" robots-request=log
+  ## flag favicon requests
+  SetEnvIf Request_URI "^/favicon\.ico$" favicon-request=nolog
+
+  ## flag image requests
+  SetEnvIf Request_URI "(\.gif|\.png|\.jpg)$" image-request=nolog
+
+  ## flag Css and JS requests
+  SetEnvIf Request_URI \.css css-request=nolog
+  SetEnvIf Request_URI \.js js-request=nolog
+
+  ## flag cron calls
+  SetEnvIf Request_URI "(^/cron\.php|^/bgp-start/)" cron-request=nolog
+
+  ## set do_not_log if any of the above flags are set
+  SetEnvIf robots-request nolog do_not_log
+  SetEnvIf favicon-request nolog do_not_log
+  SetEnvIf image-request nolog do_not_log
+  SetEnvIf css-request nolog do_not_log
+  SetEnvIf js-request nolog do_not_log
+  SetEnvIf cron-request nolog do_not_log
+
+
+  ## only log if do_not_log is not set
+  {% if apache_vhosts_version == '2.4' %}
+  CustomLog ${APACHE_LOG_DIR}/{{ vhost_name }}-access.log {{ apache_accesslog_format }} env=!do_not_log
+  {% else %}
+  CustomLog {{apache_log_dir}}/{{ vhost_name }}-access.log {{ apache_accesslog_format }} env=!do_not_log
+  {% endif %}

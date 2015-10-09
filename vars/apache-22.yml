@@ -21,3 +21,26 @@ apache_ports_configuration_items:
     regexp: "^NameVirtualHost ",
     line: "NameVirtualHost *:{{ apache_listen_port }}"
   }
+  - {
+  	regexp: "^Include /etc/httpd/sites-enabled/",
+  	line: "Include /etc/httpd/sites-enabled/"
+  }
+
+
+apache_env_vars:
+  - {
+    regexp: "^User",
+    line: "User {{ apache_run_user }}"
+  }
+  - {
+    regexp: "^Group",
+    line: "Group {{ apache_run_group }}"
+  }
+  - {
+    regexp: "^ErrorLog",
+    line: "ErrorLog {{ apache_log_dir }}/error_log"
+  }
+  - {
+    regexp: "^CustomLog",
+    line: "CustomLog {{ apache_log_dir }}/access_log {{ apache_accesslog_format }}"
+  }

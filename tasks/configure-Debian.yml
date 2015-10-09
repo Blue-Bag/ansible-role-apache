@@ -3,8 +3,7 @@
 - name: Apache | change port configuration
   template:
     src: apache_ports.conf.j2
-    dest: {{ apache_server_root }}/ports.conf
-
+    dest: "{{ apache_server_root }}/ports.conf"
 - name: Apache | change ServerName configuration
   template:
     src: apache_fqdn.conf.j2

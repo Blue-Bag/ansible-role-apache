@@ -10,13 +10,13 @@ apache_remote_db: True
 #path to files for the default site
 apache_default_site_files: "default-site"
 
-apache_server_admin: "info@example.com"
+apache_server_admin: "root@localhost"
 
 apache_webserver_hostname: "{{ inventory_hostname }}"
 #apache_webserver_hostname_alias:
 
 apache_timezone: "Europe/London"
-apache_server_header: "inventory_hostname"
+apache_server_header: ''
 apache_server_stage: "live"
 
 apache_home_dir: "/var/www"
@@ -24,7 +24,7 @@ apache_default_site: "{{ apache_home_dir }}/default"
 host_redirect_to_main: false
 
 
-apache_log_dir: "/var/log/apache2"
+apache_log_dir: "/var/log/{{ apache_daemon }}"
 
 # access log format [common | combined | vhost_combined]
 apache_accesslog_format: vhost_combined

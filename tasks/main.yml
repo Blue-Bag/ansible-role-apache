@@ -34,8 +34,11 @@
 - include: configure-Debian.yml
   when: ansible_os_family == 'Debian'
 
-- include: configure-RedHat.yml
-  when: ansible_os_family == 'RedHat'
+- include: configure-Redhat-22.yml
+  when: "ansible_os_family == 'RedHat' and apache_version.split('.')[1] == '2'"
+
+- include: configure-Redhat-24.yml
+  when: "ansible_os_family == 'RedHat' and apache_version.split('.')[1] == '4'"
 
 - include: setup-ssl.yml
   when: ssl_enabled
