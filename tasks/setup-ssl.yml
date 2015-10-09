@@ -11,22 +11,22 @@
   tags: [ssl]
 
 - name: Ensure ssl-certs group is present
-  group: 
+  group:
     name: ssl-cert
     state: present
   sudo: yes
   tags: [ssl]
 
 - name: Make sure Webserver run user is in ssl-cert group
-  user: 
+  user:
     name: "{{ apache_run_user }}"
     groups: ssl-cert
     append: true
   sudo: yes
-  tags: [ssl] 
+  tags: [ssl]
 
 - name: Ensure the ssl certs dir exists
-  file: 
+  file:
     path: "{{ item.path }}"
     mode: "{{ item.mode }}"
     state: directory
@@ -43,9 +43,9 @@
        }
   sudo: yes
   tags: [ssl]
-  
+
 - name: Put certificate files in place
-  copy: 
+  copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
@@ -56,7 +56,6 @@
     - "{{ ssl_certificate_chain|default([]) }}"
   sudo: yes
   tags: [ssl]
-  notify: restart apache 
-  
-  
-  
+  notify: restart apache
+
+
