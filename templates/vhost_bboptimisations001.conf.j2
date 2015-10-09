@@ -9,11 +9,13 @@
  FileETag none
 
 ## ENVIRONMENT VARIABLES ###
- SetEnv TZ {{ ntp_timezone }}
+ SetEnv TZ {{ apache_timezone }}
 
+{% if apache_server_header is defined and apache_server_header != '' %}
 <IfModule mod_headers.c>
     Header always set {{ apache_server_header }}
 </IfModule>
+{% endif %}
 
 ## ERRORDOCUMENTS ###
  ErrorDocument 401 /index.html
