@@ -58,11 +58,17 @@
   </Directory>
 
 
-
   LogLevel {{ apache_loglevel }}
- # ErrorLog ${APACHE_LOG_DIR}/error.log
- # CustomLog ${APACHE_LOG_DIR}/access.log {{ apache_accesslog_format }}
-
+  ErrorLog ${APACHE_LOG_DIR}/{{ vhost_name }}-error.log
+  {% if apache_log_exclude %}
+  {% include 'bbinc/vhost-bb-logging.j2' %}
+  {% else %}
+  {% if apache_vhosts_version == '2.4' %}
+  CustomLog ${APACHE_LOG_DIR}/{{ vhost_name }}-access.log {{ apache_accesslog_format }}
+  {% else %}
+  CustomLog {{apache_log_dir}}/{{ vhost_name }}-access.log {{ apache_accesslog_format }}
+  {% endif %}
+  {% endif %}
 
  {% include 'vhost_bboptimisations001.conf.j2' %}
 
