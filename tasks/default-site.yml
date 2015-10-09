@@ -8,6 +8,7 @@
   #  validate: 'apachectl -t -f %s'
   tags: [apache]
   register: vhost_updated
+  sudo: true
 
 
 - name: Set fact for config to test
@@ -53,6 +54,7 @@
     mode: 0644
   with_fileglob:
     - "{{ apache_default_site_files}}/*"
+  sudo: true
 
 #- name: Apache | Setup default site
 #  unarchive: >

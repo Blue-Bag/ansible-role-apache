@@ -7,6 +7,7 @@
     path: "{{ apache_default_site }}",
   }
   tags: apache
+  sudo: true
 
 
 - name: Apache | Create www-admin group for web
@@ -17,6 +18,7 @@
     - "{{ apache_admin_group }}"
     - "{{ apache_run_group }}"
   tags: apache
+  sudo: true
 
 - name: Apache | Add apache www-admin user
   user:
@@ -38,6 +40,7 @@
   no_log: True
   with_items:
     -  "{{ apache_auth_users }}"
+  sudo: true
 
 
 # Todo write the authgroup file
@@ -55,7 +58,7 @@
 # Apache user www-data is created on install of apache
 # but may be apache on centos
 - name: Apache | Add apache www-data user
-  user: 
+  user:
     name: "{{ apache_run_user }}"
     append: yes
     group: "{{ apache_run_group }}"

@@ -12,6 +12,7 @@
 - name: restart apache
   action: service name={{ apache_daemon }} state=restarted
   tags: common
+  sudo: true
 
 - name: reload apache
   service: name={{ apache_daemon }} state=reloaded

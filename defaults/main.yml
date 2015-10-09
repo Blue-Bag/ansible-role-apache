@@ -23,11 +23,12 @@ apache_home_dir: "/var/www"
 apache_default_site: "{{ apache_home_dir }}/default"
 host_redirect_to_main: false
 
-
+# a variable for the name of the vhost (used inthe logging optimisations)
+apache_vhost_logname: 'default'
 apache_log_dir: "/var/log/{{ apache_daemon }}"
 
 # access log format [common | combined | vhost_combined]
-apache_accesslog_format: vhost_combined
+apache_accesslog_format: combined
 apache_log_exclude: false
 # You may need to add the proxy header
 apache_proxy_log: "absent"

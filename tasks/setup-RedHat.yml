@@ -5,3 +5,4 @@
     state: installed
   #  enablerepo: "{{ apache_enablerepo }}"
   with_items: apache_packages
+  sudo: true

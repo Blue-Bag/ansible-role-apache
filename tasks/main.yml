@@ -50,3 +50,4 @@
     name: "{{ apache_daemon }}"
     state: started
     enabled: yes
+  sudo: true

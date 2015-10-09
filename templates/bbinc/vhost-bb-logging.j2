@@ -24,7 +24,7 @@
 
   ## only log if do_not_log is not set
   {% if apache_vhosts_version == '2.4' %}
-  CustomLog ${APACHE_LOG_DIR}/{{ vhost_name }}-access.log {{ apache_accesslog_format }} env=!do_not_log
+  CustomLog ${APACHE_LOG_DIR}/{{ apache_vhost_logname }}-access.log {{ apache_accesslog_format }} env=!do_not_log
   {% else %}
-  CustomLog {{apache_log_dir}}/{{ vhost_name }}-access.log {{ apache_accesslog_format }} env=!do_not_log
+  CustomLog {{apache_log_dir}}/{{ apache_vhost_logname }}-access.log {{ apache_accesslog_format }} env=!do_not_log
   {% endif %}

@@ -1,10 +1,12 @@
 ---
 - name: Update apt cache.
   apt: update_cache=yes cache_valid_time=86400
+  sudo: true
 
 - name: Debian | Ensure Apache is installed.
   apt: "name={{ item }} state=installed"
   with_items: apache_packages
+  sudo: true
 
 - name: Ensure MySQL packages are installed (client).
   apt: "name={{ item }} state=installed"
