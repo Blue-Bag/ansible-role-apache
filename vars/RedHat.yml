@@ -1,5 +1,5 @@
 ---
-## Apache vars on RedHat - not tested !!
+## Apache vars on RedHat
 
 apache_daemon: httpd
 apache_server_root: "/etc/httpd"
