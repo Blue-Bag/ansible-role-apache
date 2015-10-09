@@ -44,3 +44,7 @@ apache_env_vars:
     regexp: "^CustomLog",
     line: "CustomLog {{ apache_log_dir }}/access_log {{ apache_accesslog_format }}"
   }
+  - {
+    regexp: "^DocumentRoot",
+    line: "DocumentRoot \"{{ apache_default_site }}\""
+  }
