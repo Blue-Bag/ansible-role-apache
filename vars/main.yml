@@ -28,22 +28,13 @@ apache_conf_vars:
     regexp: "^LogLevel ",
     line: "LogLevel {{ apache_loglevel }}"
   }
-  
-apache_env_vars:
   - {
-    regexp: "^export APACHE_RUN_USER=",
-    line: "export APACHE_RUN_USER={{ apache_run_user }}"
+    regexp: "^ServerAdmin ",
+    line: "ServerAdmin {{ apache_server_admin }}"
   }
-  - {
-    regexp: "^export APACHE_RUN_GROUP=",
-    line: "export APACHE_RUN_GROUP={{ apache_run_group }}"
-  }  
-  - {
-    regexp: "^export APACHE_LOG_DIR=",
-    line: "export APACHE_LOG_DIR={{ apache_log_dir }}$SUFFIX"
-  } 
-  
-  
+
+
+
 # vars for apache security  
 apache_security_vars:
   - {

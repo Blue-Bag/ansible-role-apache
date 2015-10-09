@@ -4,13 +4,14 @@
 
 apache_daemon: apache2
 apache_server_root: "/etc/apache2"
-apache_vhost_available: "/etc/apache2/sites-available"
-apache_vhost_enabled: '/etc/apache2/sites-enabled'
-apache_mods_available: "/etc/apache2/mods-available"
-apache_mods_enabled: '/etc/apache2/mods-enabled'
 
-apache_auth_htpasswd_file: "/etc/apache2/.htpasswds/passwdfile"
-apache_auth_htgroup_file: "/etc/apache2/.htpasswds/groupfile"
+apache_vhost_available: "{{ apache_server_root }}/sites-available"
+apache_vhost_enabled: "{{ apache_server_root }}/sites-enabled"
+apache_mods_available: "{{ apache_server_root }}/mods-available"
+apache_mods_enabled: "{{ apache_server_root }}/mods-enabled"
+
+apache_auth_htpasswd_file: "{{ apache_server_root }}/.htpasswds/passwdfile"
+apache_auth_htgroup_file: "{{ apache_server_root }}/.htpasswds/groupfile"
 
 apache_conf_main: "apache2.conf"
 
