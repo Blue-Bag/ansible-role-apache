@@ -38,11 +38,11 @@ apache_env_vars:
   }
   - {
     regexp: "^ErrorLog",
-    line: "ErrorLog {{ apache_log_dir }}/error_log"
+    line: "ErrorLog {{ apache_log_dir }}/error.log"
   }
   - {
     regexp: "^CustomLog",
-    line: "CustomLog {{ apache_log_dir }}/access_log {{ apache_accesslog_format }}"
+    line: "CustomLog {{ apache_log_dir }}/access.log {{ apache_accesslog_format }}"
   }
   - {
     regexp: "^DocumentRoot",
