@@ -35,7 +35,7 @@ apache_conf_vars:
 
 
 
-# vars for apache security  
+# vars for apache security
 apache_security_vars:
   - {
     regexp: "^ServerTokens",

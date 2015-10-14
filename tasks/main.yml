@@ -43,6 +43,9 @@
 - include: setup-ssl.yml
   when: ssl_enabled
 
+- include: configure-proxy.yml
+  when: apache_proxy
+
 - include: default-site.yml
 
 - name: Ensure Apache is started and enabled on boot.

@@ -1,0 +1,29 @@
+---
+
+
+- name: Apache | Enable remoteip Apache mod.
+  apache2_module: state=present name={{ item }}
+  with_items:
+    - remoteip
+  notify: restart apache
+  sudo: true
+  when: apache_vhosts_version == '2.4' and apache_proxy == true
+
+- name:  Apache | Add remoteip header config
+  lineinfile:
+    dest: "{{ apache_server_root }}/{{ apache_conf_main }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+   - {
+    regexp: "^RemoteIPHeader ",
+    line: "RemoteIPHeader X-Forwarded-For"
+   }
+   - {
+    regexp: "^RemoteIPInternalProxy",
+    line: "RemoteIPInternalProxy {{ apache_proxy_ip }}"
+   }
+  when: apache_vhosts_version == '2.4' and apache_proxy == true
+  sudo: true
+  notify: restart apache
