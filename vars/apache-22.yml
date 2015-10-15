@@ -22,8 +22,8 @@ apache_ports_configuration_items:
     line: "NameVirtualHost *:{{ apache_listen_port }}"
   }
   - {
-  	regexp: "^Include /etc/httpd/sites-enabled/",
-  	line: "Include /etc/httpd/sites-enabled/"
+    regexp: "^Include /etc/httpd/sites-enabled/",
+    line: "Include /etc/httpd/sites-enabled/"
   }
 
 
