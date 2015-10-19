@@ -21,6 +21,10 @@
   SetEnvIf js-request nolog do_not_log
   SetEnvIf cron-request nolog do_not_log
 
+  SetEnvIf Request_Method HEAD hb-request=nolog
+  SetEnvIf Remote_Addr 127.0.0.1 hb-request=nolog
+
+  SetEnvIf hb-request nolog do_not_log
 
   ## only log if do_not_log is not set
   {% if apache_vhosts_version == '2.4' %}
