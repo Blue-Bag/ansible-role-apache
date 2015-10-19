@@ -1,5 +1,19 @@
 ---
 
+- name: Apache | Put up inclusions
+  template:
+    src: "bbinc/{{ item }}.j2"
+    dest: "{{ apache_conf_available }}/{{ item }}"
+    mode: 0644
+    owner: root
+    group: root
+  with_items:
+    - 'blocked-addresses.conf'
+    - 'blocked-agents.conf'
+  when: apache_deny_addresses or apache_deny_addresses
+  sudo: true
+  tags: [apache]
+
 - name: Apache | Update default host
   template:
     src: apache_default_vhost.conf.j2

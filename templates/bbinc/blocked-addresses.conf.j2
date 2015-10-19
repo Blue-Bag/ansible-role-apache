@@ -1,0 +1,3 @@
+{% for address in apache_blocked_addresses %}
+SetEnvIfNoCase REMOTE_ADDR "{{ address }}"  BlockedAddress
+{% endfor %}

@@ -29,7 +29,10 @@ apache_log_dir: "/var/log/{{ apache_daemon }}"
 
 # access log format [common | combined | vhost_combined]
 apache_accesslog_format: combined
+# exclude non page calls (images, css, js etc) from logs
 apache_log_exclude: false
+# exclude heartbeat monitoring from localhost form logs
+apache_log_exclude_hb_only: false
 # You may need to add the proxy header
 # is apache behind a proxy (varnish, pound etc)
 apache_proxy: false
@@ -96,4 +99,44 @@ apache_ssl_cipher_suite: "AES256+EECDH:AES256+EDH"
 
 # on | off
 apache_ssl_usestabling: no
+apache_deny_addresses: false
+apache_deny_agents: false
+apache_blocked_addresses:
+  - '96\.47\.22(4|5)\.*'
+  - '173\.44\.37\.*'
+  - '175\.44\.30\.180'
+  - '175\.44\.29\.92'
+  - '175\.44\.30\.180'
+  - '174\.139\.240\.74'
+  - '144\.76\.90\.230'
+  - '192\.99\.12\.128'
+  - '144\.76\.195\.72'
+  - '54\.189\.47\.213'
+  - '62\.116\.110\.111'
+  - '109\.201\.137\.166'
+  - '61\.160\.213\.56'
+
+apache_blocked_agents:
+  - 'Jakarta'
+  - 'User-Agent'
+  - 'libwww,'
+  - 'lwp-trivial'
+  - 'Snoopy'
+  - 'PHPCrawl'
+  - 'WEP Search'
+  - 'Missigua Locator'
+  - 'ISC Systems iRc'
+  - 'lwp-trivial'
+  - 'GbPlugin'
+  - 'EmailSiphon'
+  - 'EmailWolf'
+  - 'libwww-perl'
+  - 'BLEXBot'
+  - '007ac9 Crawler'
+  - 'MJ12bot'
+  - 'Fetchbot'
+  - 'SISTRIX'
+
+
+
 

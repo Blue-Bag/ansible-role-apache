@@ -44,14 +44,42 @@
 </Location>
 {% endif %}
 
+{% if apache_deny_addresses %}
+Include {{ apache_conf_available }}/blocked-addresses.conf
+{% endif %}
+{% if apache_deny_agents %}
+Include {{ apache_conf_available }}/blocked-agents.conf
+{% endif %}
+
   <Directory {{ apache_default_site }}>
     AllowOverride None
     Options -Indexes +SymLinksIfOwnerMatch -MultiViews
  {% if apache_vhosts_version == '2.4' %}
-    Require all granted
+    <RequireAll>
+        <RequireAny>
+            <RequireAll>
+                Require all granted
+            </RequireAll>
+        </RequireAny>
+        <RequireNone>
+ {% if apache_deny_addresses %}
+            Require env BlockedAddress
+ {% endif %}
+ {% if apache_deny_agents %}
+            Require env BlockedAgent
+ {% endif %}
+        </RequireNone>
+    </RequireAll>
+
  {% else %}
     Order allow,deny
-    allow from all
+    Allow from all
+  {% if apache_deny_addresses %}
+    deny from env=BlockedAddress
+  {% endif %}
+  {% if apache_deny_agents %}
+    deny from env=BlockedAgent
+  {% endif %}
  {% endif %}
 
 
@@ -67,10 +95,15 @@
   {% if apache_log_exclude %}
   {% include 'bbinc/vhost-bb-logging.j2' %}
   {% else %}
+  {% if apache_log_exclude_hb_only %}
+  SetEnvIf Request_Method HEAD hb-request=nolog
+  SetEnvIf Remote_Addr 127.0.0.1 hb-request=nolog
+  SetEnvIf hb-request nolog do_not_log
+  {% endif %}
   {% if apache_vhosts_version == '2.4' %}
-  CustomLog ${APACHE_LOG_DIR}/{{ apache_vhost_logname }}-access.log {{ apache_accesslog_format }}
+  CustomLog ${APACHE_LOG_DIR}/{{ apache_vhost_logname }}-access.log {{ apache_accesslog_format }} env=!do_not_log
   {% else %}
-  CustomLog {{apache_log_dir}}/{{ apache_vhost_logname }}-access.log {{ apache_accesslog_format }}
+  CustomLog {{apache_log_dir}}/{{ apache_vhost_logname }}-access.log {{ apache_accesslog_format }} env=!do_not_log
   {% endif %}
   {% endif %}
 

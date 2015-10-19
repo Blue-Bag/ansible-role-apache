@@ -1,0 +1,6 @@
+# list obtained from 3rd party
+SetEnvIfNoCase User-Agent ^$ BlockedAgent    #this is for blank user-agents
+{% for agent in apache_blocked_agents %}
+SetEnvIfNoCase User-Agent "{{ agent }}"  BlockedAgent
+{% endfor %}
+
