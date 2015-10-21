@@ -55,22 +55,24 @@ Include {{ apache_conf_available }}/blocked-agents.conf
     AllowOverride None
     Options -Indexes +SymLinksIfOwnerMatch -MultiViews
  {% if apache_vhosts_version == '2.4' %}
-    <RequireAll>
+<RequireAll>
         <RequireAny>
+            Require local
             <RequireAll>
                 Require all granted
-            </RequireAll>
-        </RequireAny>
-        <RequireNone>
+                 {% if apache_deny_addresses or apache_deny_agents %}
+                <RequireNone>
  {% if apache_deny_addresses %}
-            Require env BlockedAddress
+                  Require env BlockedAddress
  {% endif %}
  {% if apache_deny_agents %}
-            Require env BlockedAgent
+                  Require env BlockedAgent
  {% endif %}
-        </RequireNone>
-    </RequireAll>
-
+               </RequireNone>
+                 {% endif %}
+            </RequireAll>
+        </RequireAny>
+ </RequireAll>
  {% else %}
     Order allow,deny
     Allow from all
