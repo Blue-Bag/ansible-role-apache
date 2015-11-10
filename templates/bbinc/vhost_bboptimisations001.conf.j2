@@ -13,10 +13,17 @@
 
 {% if apache_server_header is defined and apache_server_header != '' %}
 <IfModule mod_headers.c>
-    Header always set {{ apache_server_header }}
+    Header set {{ apache_server_header }}
 </IfModule>
 {% endif %}
 
+{% if http_headers is defined %}
+<IfModule mod_headers.c>
+  {% for httpheader in http_headers %}
+  Header {{ httpheader.level }} {{ httpheader.name }} {{ httpheader.value}}
+  {% endfor %}
+</IfModule>
+  {% endif %}
 
 ## ERRORDOCUMENTS ###
  ErrorDocument 401 /index.html
