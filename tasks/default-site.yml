@@ -58,6 +58,16 @@
   when: apache_result|failed
   tags: [apache]
 
+- name: Apache | Enable default host
+  file:
+    src: "{{ apache_vhost_available }}/{{ apache_default_vhost }}"
+    dest: "{{ apache_vhost_enabled }}/000-default.conf"
+    state: link
+  when:  apache_result|success
+  sudo: true
+  notify:
+    - restart apache
+  tags: [apache]
 
 - name: Apache | Put up Holding page
   copy:
@@ -69,6 +79,32 @@
   with_fileglob:
     - "{{ apache_default_site_files}}/*"
   sudo: true
+  when: not apache_rsync_default_site
+  tags: [apache]
+
+- name: Apache | Put up holding site
+  synchronize:
+    src: "{{ apache_default_site_files}}/"
+    dest: "{{ apache_default_site }}"
+    recursive: yes
+    rsync_opts:
+      - "--exclude=.DS_Store"
+  when: apache_rsync_default_site
+  tags: [apache]
+
+- name: Apache | Set permissions on rsync'd apache_default_site_files
+  shell: find {{ apache_default_site }} -type f -exec chmod 664 {} + -o -type d -exec chmod 775 {} +
+  changed_when: False
+  when: apache_rsync_default_site
+  sudo: true
+  tags: [apache]
+
+- name: Apache | Correct ownership (files)
+  shell: chown -hR {{ apache_admin_user }}:{{ apache_admin_group }} {{ apache_default_site }}
+  changed_when: False
+  when: apache_rsync_default_site
+  sudo: true
+  tags: [apache]
 
 #- name: Apache | Setup default site
 #  unarchive: >
