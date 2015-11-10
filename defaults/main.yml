@@ -16,12 +16,32 @@ apache_webserver_hostname: "{{ inventory_hostname }}"
 #apache_webserver_hostname_alias:
 
 apache_timezone: "Europe/London"
+
+# the following is deprecated in favour of http_headers
 apache_server_header: ''
+
+# a list of non-ssl headers to set
+# http_headers:
+#   - {
+#       name: 'X-Content-Type-Options',
+#       value: 'nosniff',
+#       level: 'set'
+#   }
+#   - {
+#       name: 'X-Frame-Options',
+#       value: 'SAMEORIGIN',
+#       level: 'always set'
+#   }
+
 apache_server_stage: "live"
 
 apache_home_dir: "/var/www"
 apache_default_site: "{{ apache_home_dir }}/default"
-host_redirect_to_main: false
+# default is to file_glob the default site
+# if you have folders to recurse then use rsync
+apache_rsync_default_site: False
+
+host_redirect_to_main: False
 
 # a variable for the name of the vhost (used inthe logging optimisations)
 apache_vhost_logname: 'default'
