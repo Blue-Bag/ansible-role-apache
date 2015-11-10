@@ -1,7 +1,11 @@
 ---
 
 - name: Apache | set up directories
-  file: path={{ item.path }} state=directory recurse=yes
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    recurse: yes
+    mode: 0755
   with_items:
   - {
     path: "{{ apache_default_site }}",
@@ -14,6 +18,7 @@
   group:
     name: "{{ item }}"
     state: present
+    createhome: no
   with_items:
     - "{{ apache_admin_group }}"
     - "{{ apache_run_group }}"
@@ -26,6 +31,7 @@
     groups: "{{ apache_run_group }}"
     append: yes
     group: "{{ apache_admin_group }}"
+    createhome: no
   sudo: true
 
 # Note this module requires the package python-passlib
@@ -62,4 +68,5 @@
     name: "{{ apache_run_user }}"
     append: yes
     group: "{{ apache_run_group }}"
+    createhome: no
   sudo: true
