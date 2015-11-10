@@ -20,7 +20,13 @@
 {% endif %}
   DocumentRoot {{ apache_default_site }}
 
-
+# CORS support allow fonts
+<IfModule mod_headers.c>
+<FilesMatch ".(eot|ttf|otf|woff)">
+  Header add Access-Control-Allow-Origin "*"
+  Header add Access-Control-Allow-Methods "GET"
+</FilesMatch>
+</IfModule>
 
 {% if ssl_enabled %}
  {% include 'vhost-ssl.inc.j2' %}
