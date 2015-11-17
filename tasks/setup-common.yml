@@ -18,7 +18,6 @@
   group:
     name: "{{ item }}"
     state: present
-    createhome: no
   with_items:
     - "{{ apache_admin_group }}"
     - "{{ apache_run_group }}"
