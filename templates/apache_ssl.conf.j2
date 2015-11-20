@@ -91,7 +91,7 @@
 	{% if apache_vhosts_version == '2.4' %}
     # Requires Apache >= 2.4
     SSLCompression off
-    SSLUseStapling {{ apache_ssl_usestabling }}
+    SSLUseStapling {{ apache_ssl_usestapling }}
     SSLStaplingCache "shmcb:logs/stapling-cache(150000)"
     {% endif %}
 
