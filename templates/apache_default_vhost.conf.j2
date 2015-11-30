@@ -1,12 +1,12 @@
 # {{ ansible_managed }}
-{% if ssl_enabled %}
+{% if apache_site_https_enabled %}
 {% include 'vhost80-443.j2' %}
 {% endif %}
 
-{% if ssl_enabled %}
+{% if apache_site_https_enabled %}
 <IfModule mod_ssl.c>
 {% endif %}
-<VirtualHost *:{{ apache_listen_port_ssl if ssl_enabled else apache_listen_port }}>
+<VirtualHost *:{{ apache_listen_port_ssl if apache_site_https_enabled else apache_listen_port }}>
   ServerAdmin {{ apache_server_admin }}
   ServerName {{ apache_webserver_hostname }}
   {% if apache_webserver_hostname_alias is defined and apache_webserver_hostname_alias|length > 0 %}
@@ -15,7 +15,7 @@
 
 {% if host_redirect_to_main %}
 <If "%{HTTP_HOST} != '{{ apache_webserver_hostname }}'">
-  Redirect "/" "http{{ 's' if ssl_enabled else '' }}://{{ apache_webserver_hostname }}/"
+  Redirect "/" "http{{ 's' if apache_site_https_enabled else '' }}://{{ apache_webserver_hostname }}/"
 </If>
 {% endif %}
   DocumentRoot {{ apache_default_site }}
@@ -28,7 +28,7 @@
 </FilesMatch>
 </IfModule>
 
-{% if ssl_enabled %}
+{% if apache_site_https_enabled %}
  {% include 'vhost-ssl.inc.j2' %}
 {% endif %}
 
@@ -119,7 +119,7 @@ Include {{ apache_conf_available }}/blocked-agents.conf
 
 
 </VirtualHost>
-{% if ssl_enabled %}
+{% if apache_site_https_enabled %}
 </IfModule>
 {% endif %}
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
