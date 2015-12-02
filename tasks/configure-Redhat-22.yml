@@ -43,7 +43,7 @@
 
 
 
-- name: Apache | Configure Apache Logs (Debian)
+- name: Apache | Configure Apache Logs (Redhat)
   lineinfile:
     dest: "{{ apache_server_root }}/conf/{{ apache_daemon }}.conf"
     regexp: "vhostproxy_combined$"
