@@ -110,6 +110,37 @@ apache_ip_whitelist: []
 apache_ssl_enabled: no
 # is the default site ssl enabled
 apache_site_https_enabled: false
+
+# if we have the certificates and keys locally and want to upload them
+# set to true and provide a list of certificates with
+# ssl_certificate:
+# - {
+#     src: "{{ inventory_dir }}/common/files/ssl/certificate.pem",
+#     dest: "/etc/ssl/certs/certificate.pem",
+#     mode: "0644"
+#     }
+# ssl_certificate_key:
+#   - {
+#      src: "{{ inventory_dir }}/common/files/ssl/keyfile.key",
+#      dest: "/etc/ssl/private/keyfile.key",
+#      mode: "0640"
+#      }
+# if we are using a certificate already in place:
+# set to false and
+# ssl_certificate:
+#  - {
+#      src: "/etc/ssl/certs/certificate.pem",
+#      dest: "/etc/ssl/certs/certificate.pem",
+#      mode: "0644"
+#      }
+# ssl_certificate_key:
+#   - {
+#      src: "{{ inventory_dir }}/common/files/ssl/keyfile.key",
+#      dest: "/etc/ssl/private/keyfile.key",
+#      mode: "0640"
+#      }
+
+ssl_cert_upload: True
 #ssl_certificate: []
 #ssl_certificate_key: []
 #ssl_certificate_chain:[]

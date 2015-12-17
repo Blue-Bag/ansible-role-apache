@@ -9,6 +9,18 @@
     mode: 0644
   sudo: true
   tags: [ssl]
+  when: ansible_os_family == 'Debian'
+
+- name: Setup default mod_ssl config
+  template:
+    src: apache_ssl_redhat.conf.j2
+    dest: "{{ apache_mods_available }}/ssl.conf"
+    owner: root
+    group: root
+    mode: 0644
+  sudo: true
+  tags: [ssl]
+  when: ansible_os_family == 'RedHat'
 
 - name: Ensure ssl-certs group is present
   group:
@@ -34,15 +46,16 @@
     owner: root
   with_items:
     - {
-       path: '/etc/ssl/certs',
+       path: '{{ ssl_certs_dir}}',
        mode: '0755'
        }
     - {
-       path: '/etc/ssl/private',
+       path: '{{ ssl_private_dir }}',
        mode: '0700'
        }
   sudo: yes
   tags: [ssl]
+
 
 - name: Put certificate files in place
   copy:
@@ -54,6 +67,7 @@
     - "{{ ssl_certificate }}"
     - "{{ ssl_certificate_key }}"
     - "{{ ssl_certificate_chain|default([]) }}"
+  when: ssl_cert_upload
   sudo: yes
   tags: [ssl]
   notify: restart apache
