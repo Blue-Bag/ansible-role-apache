@@ -36,8 +36,16 @@
   <Location /server-status>
     SetHandler server-status
     {% if apache_vhosts_version == '2.4' %}
+{# allow local traffic through - only if not behind a proxy #}
+   {% if apache_proxy == false}
+   Require local
+   {% endif %}
+  <RequireAll>
+    <RequireAny>
      {% for entry in incoming_ip_whitelist %}
    Require ip {{ entry.ip }}
+    </RequireAny>
+  </RequireAll>
      {% endfor %}
    {% else %}
    Order deny,allow
