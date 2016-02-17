@@ -37,7 +37,7 @@
     SetHandler server-status
     {% if apache_vhosts_version == '2.4' %}
 {# allow local traffic through - only if not behind a proxy #}
-   {% if apache_proxy == false}
+   {% if apache_proxy == false %}
    Require local
    {% endif %}
   <RequireAll>
