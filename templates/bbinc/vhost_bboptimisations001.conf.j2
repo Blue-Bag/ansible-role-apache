@@ -17,13 +17,25 @@
 </IfModule>
 {% endif %}
 
-{% if http_headers is defined %}
-<IfModule mod_headers.c>
-  {% for httpheader in http_headers %}
-  Header {{ httpheader.level }} {{ httpheader.name }} {{ httpheader.value}}
-  {% endfor %}
-</IfModule>
-  {% endif %}
+
+  <IfModule mod_headers.c>
+    {% if http_headers is defined %}
+    {% for httpheader in http_headers %}
+      Header {{ httpheader.level }} {{ httpheader.name }} "{{ httpheader.value}}"
+    {% endfor %}
+    {% else %}
+        {% if apache_server_header is defined and apache_server_header != '' %}
+    Header set {{ apache_server_header }}
+        {% endif %}
+    {% endif %}
+    {% if apache_site_https_enabled and ssl_headers is defined %}
+    {% for sslheader in ssl_headers %}
+      Header {{ sslheader.level }} {{ sslheader.name }} "{{ sslheader.value}}"
+    {% endfor %}
+
+    {% endif %}
+
+  </IfModule>
 
 ## ERRORDOCUMENTS ###
  ErrorDocument 401 /index.html
