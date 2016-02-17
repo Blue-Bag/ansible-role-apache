@@ -44,6 +44,7 @@ apache_disable_mods:
    - proxy_ftp
    - proxy_http
    - proxy_connect
+   - server_status
 #   - autoindex
 
 apache_mysql_packages:
