@@ -9,21 +9,32 @@
   sudo: true
   when: apache_vhosts_version == '2.4' and apache_proxy == true
 
-- name:  Apache | Add remoteip header config
-  lineinfile:
-    dest: "{{ apache_server_root }}/{{ apache_conf_main }}"
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    state: present
-  with_items:
-   - {
-    regexp: "^RemoteIPHeader ",
-    line: "RemoteIPHeader X-Forwarded-For"
-   }
-   - {
-    regexp: "^RemoteIPInternalProxy",
-    line: "RemoteIPInternalProxy {{ apache_proxy_ip }}"
-   }
+# - name:  Apache | Add remoteip header config
+#   lineinfile:
+#     dest: "{{ apache_server_root }}/{{ apache_conf_main }}"
+#     regexp: "{{ item.regexp }}"
+#     line: "{{ item.line }}"
+#     state: present
+#   with_items:
+#    - {
+#     regexp: "^RemoteIPHeader ",
+#     line: "RemoteIPHeader X-Forwarded-For"
+#    }
+#    - {
+#     regexp: "^RemoteIPInternalProxy",
+#     line: "RemoteIPInternalProxy {{ apache_proxy_ip }}"
+#    }
+  # when: apache_vhosts_version == '2.4' and apache_proxy == true
+  # sudo: true
+  # notify: restart apache
+
+- name: Apache | Configure remoteip
+  template:
+    src: apache_remoteip.conf.j2
+    dest: "{{ apache_mods_available }}/remoteip.conf"
+    mode: 0644
+    owner: root
+    group: root
   when: apache_vhosts_version == '2.4' and apache_proxy == true
-  sudo: true
   notify: restart apache
+  sudo: true

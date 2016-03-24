@@ -56,7 +56,16 @@ apache_log_exclude_hb_only: false
 # You may need to add the proxy header
 # is apache behind a proxy (varnish, pound etc)
 apache_proxy: false
-apache_proxy_ip: '127.0.0.1/8'
+apache_proxy_ips:
+  - '127.0.0.1/8'
+
+# On Nginx backend
+# RemoteIPHeader X-Real-IP
+
+# On Varnish backend
+# RemoteIPHeader X-Forwarded-For
+apache_proxy_header: 'X-Forwarded-For'
+
 apache_proxy_log: "absent"
 apache_vhc_format: 'LogFormat "%v:%p \\"%{X-Forwarded-For}i\\" %l %u %t \\"%r\\" %>s %O \\"%{Referer}i\\" \\"%{User-Agent}i\\"" vhostproxy_combined'
 
