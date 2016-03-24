@@ -44,9 +44,9 @@
     <RequireAny>
      {% for entry in incoming_ip_whitelist %}
    Require ip {{ entry.ip }}
+    {% endfor %}
     </RequireAny>
   </RequireAll>
-     {% endfor %}
    {% else %}
    Order deny,allow
    Deny from all
