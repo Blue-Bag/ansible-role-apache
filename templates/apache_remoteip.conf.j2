@@ -3,5 +3,4 @@ RemoteIPHeader {{ apache_proxy_header | default('X-Forwarded-For') }}
 {% for ip in apache_proxy_ips %}
 RemoteIPInternalProxy {{ ip }}
 {% endfor %}
-
 </IfModule>
