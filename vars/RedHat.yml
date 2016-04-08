@@ -37,8 +37,8 @@ apache_mods_disabled:
 apache_mysql_packages:
   - mysql-client
 
-ssl_private_dir: '/etc/pki/tls/private'
-ssl_certs_dir: '/etc/pki/tls/certs'
+__ssl_private_dir: '/etc/pki/tls/private'
+__ssl_certs_dir: '/etc/pki/tls/certs'
 
 #  create a dict in the form
 # {module: auth_basic_module, path: modules/mod_auth_basic.so }

@@ -50,5 +50,5 @@ apache_disable_mods:
 apache_mysql_packages:
   - mysql-client
 
-ssl_private_dir: '/etc/ssl/private'
-ssl_certs_dir: '/etc/ssl/certs'
+__ssl_private_dir: '/etc/ssl/private'
+__ssl_certs_dir: '/etc/ssl/certs'
