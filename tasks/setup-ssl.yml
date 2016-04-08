@@ -1,5 +1,16 @@
 ---
 
+- name: Define SSL directories (private).
+  set_fact:
+    ssl_private_dir: "{{ __ssl_private_dir }}"
+  when: ssl_private_dir is not defined
+
+- name: Define SSL directories (certs).
+  set_fact:
+    ssl_certs_dir: "{{ __ssl_certs_dir }}"
+  when: ssl_certs_dir is not defined
+
+
 - name: Setup default mod_ssl config
   template:
     src: apache_ssl.conf.j2
@@ -54,6 +65,7 @@
        mode: '0700'
        }
   sudo: yes
+  when: ssl_cert_upload
   tags: [ssl]
 
 
