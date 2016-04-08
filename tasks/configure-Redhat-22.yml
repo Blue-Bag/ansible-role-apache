@@ -1,6 +1,6 @@
 ---
 
-- name: Setup Vhosts folders
+- name: Setup Vhosts folders | Redhat
   file:
     path: "{{ item }}"
     state: directory
@@ -12,7 +12,7 @@
   tags: apache
 
 
-- name: Configure Apache.
+- name: Configure Apache | Redhat
   lineinfile:
     dest: "{{ apache_server_root }}/conf/{{ apache_daemon }}.conf"
     regexp: "{{ item.regexp }}"
