@@ -18,23 +18,16 @@
 {% endif %}
 
 
-  <IfModule mod_headers.c>
+ <IfModule mod_headers.c>
     {% if http_headers is defined %}
     {% for httpheader in http_headers %}
+      {% if !httpheader.secure or (httpheader.secure and apache_site_https_enabled) %}
       Header {{ httpheader.level }} {{ httpheader.name }} "{{ httpheader.value}}"
+      {% endif %}
     {% endfor %}
     {% else %}
-        {% if apache_server_header is defined and apache_server_header != '' %}
-    Header set {{ apache_server_header }}
-        {% endif %}
+        Header set {{ server_header }}
     {% endif %}
-    {% if apache_site_https_enabled and ssl_headers is defined %}
-    {% for sslheader in ssl_headers %}
-      Header {{ sslheader.level }} {{ sslheader.name }} "{{ sslheader.value}}"
-    {% endfor %}
-
-    {% endif %}
-
   </IfModule>
 
 ## ERRORDOCUMENTS ###
