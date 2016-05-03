@@ -21,7 +21,7 @@
  <IfModule mod_headers.c>
     {% if http_headers is defined %}
     {% for httpheader in http_headers %}
-      {% if !httpheader.secure or (httpheader.secure and apache_site_https_enabled) %}
+      {% if not httpheader.secure or (httpheader.secure and apache_site_https_enabled) %}
       Header {{ httpheader.level }} {{ httpheader.name }} "{{ httpheader.value}}"
       {% endif %}
     {% endfor %}
