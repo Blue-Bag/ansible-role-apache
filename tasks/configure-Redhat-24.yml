@@ -9,4 +9,4 @@
     state: present
   with_items: apache_ports_configuration_items
   notify: restart apache
-  sudo: true
+  become: true

@@ -6,7 +6,7 @@
   with_items:
     - remoteip
   notify: restart apache
-  sudo: true
+  become: true
   when: apache_vhosts_version == '2.4' and apache_proxy == true
 
 # - name:  Apache | Add remoteip header config
@@ -25,7 +25,7 @@
 #     line: "RemoteIPInternalProxy {{ apache_proxy_ip }}"
 #    }
   # when: apache_vhosts_version == '2.4' and apache_proxy == true
-  # sudo: true
+  # become: true
   # notify: restart apache
 
 - name: Apache | Configure remoteip
@@ -37,4 +37,4 @@
     group: root
   when: apache_vhosts_version == '2.4' and apache_proxy == true
   notify: restart apache
-  sudo: true
+  become: true

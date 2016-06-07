@@ -5,7 +5,7 @@
   changed_when: false
   always_run: yes
   register: _apache_version
-  sudo: true
+  become: true
 
 - name: Create apache_version variable.
   set_fact:

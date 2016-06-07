@@ -8,7 +8,7 @@
   with_items:
     - "{{ apache_vhost_available }}"
     - "{{ apache_vhost_enabled }}"
-  sudo: true
+  become: true
   tags: apache
 
 
@@ -24,7 +24,7 @@
     - "{{ apache_conf_vars }}"
     - "{{ apache_security_vars }}"
   notify: restart apache
-  sudo: true
+  become: true
 
 
 # this needs to be replaced with a lineinfile method
@@ -52,7 +52,7 @@
     state: "{{ apache_proxy_log }}"
     backup: true
   when: apache_vhc_format is defined
-  sudo: true
+  become: true
 
 
 

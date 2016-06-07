@@ -11,7 +11,7 @@
     path: "{{ apache_default_site }}",
   }
   tags: apache
-  sudo: true
+  become: true
 
 
 - name: Apache | Create www-admin group for web
@@ -22,7 +22,7 @@
     - "{{ apache_admin_group }}"
     - "{{ apache_run_group }}"
   tags: apache
-  sudo: true
+  become: true
 
 - name: Apache | Add apache www-admin user
   user:
@@ -31,7 +31,7 @@
     append: yes
     group: "{{ apache_admin_group }}"
     createhome: no
-  sudo: true
+  become: true
 
 # Note this module requires the package python-passlib
 - name: Apache | Create User password in Auth file
@@ -45,7 +45,7 @@
   no_log: True
   with_items:
     -  "{{ apache_auth_users }}"
-  sudo: true
+  become: true
 
 
 # Todo write the authgroup file
@@ -58,7 +58,7 @@
     owner: root
     group: root
     mode: 0644
-  sudo: true
+  become: true
 
 # Apache user www-data is created on install of apache
 # but may be apache on centos
@@ -68,4 +68,4 @@
     append: yes
     group: "{{ apache_run_group }}"
     createhome: no
-  sudo: true
+  become: true

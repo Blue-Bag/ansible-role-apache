@@ -11,7 +11,7 @@
     - 'blocked-addresses.conf'
     - 'blocked-agents.conf'
   when: apache_deny_addresses or apache_deny_addresses
-  sudo: true
+  become: true
   tags: [apache]
 
 - name: Apache | Update default host
@@ -22,7 +22,7 @@
   #  validate: 'apachectl -t -f %s'
   tags: [apache]
   register: vhost_updated
-  sudo: true
+  become: true
 
 
 - name: Set fact for config to test
@@ -40,14 +40,14 @@
   register: apache_result
   when: vhost_updated.changed
   ignore_errors: yes
-  sudo: true
+  become: true
   tags: [apache]
 
 - name: Clear out test file
   file:
     path: "/tmp/config_test.conf"
     state: absent
-  sudo: true
+  become: true
   when:  apache_result|success
   notify:
     - restart apache
@@ -64,7 +64,7 @@
     dest: "{{ apache_vhost_enabled }}/000-default.conf"
     state: link
   when:  apache_result|success
-  sudo: true
+  become: true
   notify:
     - restart apache
   tags: [apache]
@@ -78,7 +78,7 @@
     mode: 0644
   with_fileglob:
     - "{{ apache_default_site_files}}/*"
-  sudo: true
+  become: true
   when: not apache_rsync_default_site
   tags: [apache]
 
@@ -96,14 +96,14 @@
   shell: find {{ apache_default_site }} -type f -exec chmod 664 {} + -o -type d -exec chmod 775 {} +
   changed_when: False
   when: apache_rsync_default_site
-  sudo: true
+  become: true
   tags: [apache]
 
 - name: Apache | Correct ownership (files)
   shell: chown -hR {{ apache_admin_user }}:{{ apache_admin_group }} {{ apache_default_site }}
   changed_when: False
   when: apache_rsync_default_site
-  sudo: true
+  become: true
   tags: [apache]
 
 #- name: Apache | Setup default site

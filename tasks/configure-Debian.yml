@@ -4,13 +4,13 @@
   template:
     src: apache_ports.conf.j2
     dest: "{{ apache_server_root }}/ports.conf"
-  sudo: true
+  become: true
 
 - name: Apache | change ServerName configuration
   template:
     src: apache_fqdn.conf.j2
     dest: "{{ apache_conf_available }}/fqdn.conf"
-  sudo: true
+  become: true
 
 # note we could use a2enconf
 - name: Apache | Link in configuration files
@@ -21,20 +21,20 @@
   with_items:
     - "fqdn.conf"
   when: apache_conf_enable_on
-  sudo: true
+  become: true
 
 
 - name: Apache | Enable Apache mods.
   apache2_module: state=present name={{ item }}
   with_items: apache_enable_mods
   notify: restart apache
-  sudo: true
+  become: true
 
 - name: Apache | Disable Apache Mods
   apache2_module: state=absent name={{ item }}
   with_items: apache_disable_mods
   notify: restart apache
-  sudo: true
+  become: true
   tags:
     - apache
     - security
@@ -46,7 +46,7 @@
     line: "{{ item.line }}"
     state: present
   with_items: apache_env_vars
-  sudo: true
+  become: true
 
   notify: restart apache
 
@@ -57,7 +57,7 @@
     line: "{{ item.line }}"
     state: present
   with_items: apache_conf_vars
-  sudo: true
+  become: true
   notify: restart apache
 
 
@@ -69,7 +69,7 @@
     line: "{{ apache_vhc_format }}"
     state: "{{ apache_proxy_log }}"
     backup: true
-  sudo: true
+  become: true
   when: apache_vhc_format is defined
 
 - name: Apache | Security | Server Tokens
@@ -79,7 +79,7 @@
     line: "{{ item.line }}"
     state: present
   with_items: apache_security_vars
-  sudo: true
+  become: true
   notify: restart apache
 
 

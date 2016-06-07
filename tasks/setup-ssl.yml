@@ -18,7 +18,7 @@
     owner: root
     group: root
     mode: 0644
-  sudo: true
+  become: true
   tags: [ssl]
   when: ansible_os_family == 'Debian'
 
@@ -29,7 +29,7 @@
     owner: root
     group: root
     mode: 0644
-  sudo: true
+  become: true
   tags: [ssl]
   when: ansible_os_family == 'RedHat'
 
