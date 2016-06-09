@@ -200,6 +200,7 @@ apache_blocked_agents:
   - 'MJ12bot'
   - 'Fetchbot'
   - 'SISTRIX'
+  - 'Go-http-client'
 
 
 
