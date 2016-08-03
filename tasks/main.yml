@@ -23,6 +23,7 @@
 
 # Common setup
 - include: setup-common.yml
+  tags: [apache_setup]
 
 
 # determine apache version
