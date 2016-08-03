@@ -24,8 +24,8 @@
 # CORS support allow fonts
 <IfModule mod_headers.c>
 <FilesMatch ".(eot|ttf|otf|woff)">
-  Header add Access-Control-Allow-Origin "*"
-  Header add Access-Control-Allow-Methods "GET"
+  Header set Access-Control-Allow-Origin "*"
+  Header set Access-Control-Allow-Methods "GET"
 </FilesMatch>
 </IfModule>
 
