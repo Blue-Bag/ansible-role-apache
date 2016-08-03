@@ -78,7 +78,6 @@
     mode: 0644
   with_fileglob:
     - "{{ apache_default_site_files}}/*"
-  become: true
   when: not apache_rsync_default_site
   tags: [apache]
 
