@@ -115,8 +115,11 @@ apache_auth_groups: []
 # used for auth protection
 apache_ip_whitelist: []
 
-# is the server ssl enabled
-apache_ssl_enabled: no
+# is the server ssl enabled (set up sssl)
+apache_tls_enabled: no
+
+# is the vhost listening for apache_tls_enabled
+apache_vhost_tls_enabled: false
 # is the default site ssl enabled
 apache_site_https_enabled: false
 
