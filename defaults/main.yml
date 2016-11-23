@@ -67,8 +67,9 @@ apache_proxy_ips:
 apache_proxy_header: 'X-Forwarded-For'
 
 apache_proxy_log: "absent"
-apache_vhc_format: 'LogFormat "%v:%p \"%{X-Forwarded-For}i\" %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhostproxy_combined'
-
+#apache_vhc_format: 'LogFormat "%v:%p \"%{X-Forwarded-For}i\" %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhostproxy_combined'
+# This new format allows for failtoban and proxy address
+apache_vhc_format: 'LogFormat "%a %v:%p %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhostproxy_combined'
 apache_server_status_enabled: no
 
 # ENVARS
