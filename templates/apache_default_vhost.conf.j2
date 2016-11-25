@@ -20,6 +20,9 @@
 {% endif %}
   DocumentRoot {{ apache_default_site }}
 
+{% if 'letsencrypt' in optional_roles %}
+{% include 'bbinc/vhost-letsencrypt-acme.j2' %}
+{% endif %}
 
 # CORS support allow fonts
 <IfModule mod_headers.c>

@@ -1,0 +1,15 @@
+# ----------------------------------------------------------------------
+# | Letsencrypt ACME Folder                                            |
+# ----------------------------------------------------------------------
+
+# Alias all ACME challenges to the common letsencrypt folder
+
+
+AliasMatch /.well-known/acme-challenge(.*) /var/www/letsencrypt/.well-known/acme-challenge$1
+
+<Directory /var/www/letsencrypt/.well-known/acme-challenge>
+  AllowOverride None
+  Require all granted
+</Directory>
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
