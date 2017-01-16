@@ -3,6 +3,7 @@
 
   vars:
      optional_roles: ['letsencrypt']
+     server_header: 'Ansible "Test Server"'
 
   roles:
     - role_under_test
