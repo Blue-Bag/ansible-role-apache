@@ -1,6 +1,8 @@
 ---
 - hosts: all
 
+  vars:
+     optional_roles: ['letsencrypt']
 
   roles:
     - role_under_test
