@@ -67,8 +67,9 @@ apache_proxy_ips:
 apache_proxy_header: 'X-Forwarded-For'
 
 apache_proxy_log: "absent"
-apache_vhc_format: 'LogFormat "%v:%p \\"%{X-Forwarded-For}i\\" %l %u %t \\"%r\\" %>s %O \\"%{Referer}i\\" \\"%{User-Agent}i\\"" vhostproxy_combined'
-
+#apache_vhc_format: 'LogFormat "%v:%p \"%{X-Forwarded-For}i\" %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhostproxy_combined'
+# This new format allows for failtoban and proxy address
+apache_vhc_format: 'LogFormat "%a %v:%p %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhostproxy_combined'
 apache_server_status_enabled: no
 
 # ENVARS
@@ -115,8 +116,11 @@ apache_auth_groups: []
 # used for auth protection
 apache_ip_whitelist: []
 
-# is the server ssl enabled
-apache_ssl_enabled: no
+# is the server ssl enabled (set up sssl)
+apache_tls_enabled: no
+
+# is the vhost listening for apache_tls_enabled
+apache_vhost_tls_enabled: false
 # is the default site ssl enabled
 apache_site_https_enabled: false
 
@@ -200,6 +204,7 @@ apache_blocked_agents:
   - 'MJ12bot'
   - 'Fetchbot'
   - 'SISTRIX'
+  - 'Go-http-client'
 
 
 

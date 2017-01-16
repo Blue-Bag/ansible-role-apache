@@ -18,7 +18,7 @@
     owner: root
     group: root
     mode: 0644
-  sudo: true
+  become: true
   tags: [ssl]
   when: ansible_os_family == 'Debian'
 
@@ -29,7 +29,7 @@
     owner: root
     group: root
     mode: 0644
-  sudo: true
+  become: true
   tags: [ssl]
   when: ansible_os_family == 'RedHat'
 
@@ -37,7 +37,7 @@
   group:
     name: ssl-cert
     state: present
-  sudo: yes
+  become: true
   tags: [ssl]
 
 - name: Make sure Webserver run user is in ssl-cert group
@@ -45,7 +45,7 @@
     name: "{{ apache_run_user }}"
     groups: ssl-cert
     append: true
-  sudo: yes
+  become: true
   tags: [ssl]
 
 - name: Ensure the ssl certs dir exists
@@ -64,7 +64,7 @@
        path: '{{ ssl_private_dir }}',
        mode: '0700'
        }
-  sudo: yes
+  become: true
   when: ssl_cert_upload
   tags: [ssl]
 
@@ -80,7 +80,7 @@
     - "{{ ssl_certificate_key }}"
     - "{{ ssl_certificate_chain|default([]) }}"
   when: ssl_cert_upload
-  sudo: yes
+  become: true
   tags: [ssl]
   notify: restart apache
 

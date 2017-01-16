@@ -1,12 +1,12 @@
 # {{ ansible_managed }}
-{% if apache_site_https_enabled %}
+{% if apache_vhost_tls_enabled %}
 {% include 'vhost80-443.j2' %}
 {% endif %}
 
-{% if apache_site_https_enabled %}
+{% if apache_vhost_tls_enabled %}
 <IfModule mod_ssl.c>
 {% endif %}
-<VirtualHost *:{{ apache_listen_port_ssl if apache_site_https_enabled else apache_listen_port }}>
+<VirtualHost *:{{ apache_listen_port_ssl if apache_vhost_tls_enabled else apache_listen_port }}>
   ServerAdmin {{ apache_server_admin }}
   ServerName {{ apache_webserver_hostname }}
   {% if apache_webserver_hostname_alias is defined and apache_webserver_hostname_alias|length > 0 %}
@@ -20,16 +20,19 @@
 {% endif %}
   DocumentRoot {{ apache_default_site }}
 
+{% if 'letsencrypt' in optional_roles %}
+{% include 'bbinc/vhost-letsencrypt-acme.j2' %}
+{% endif %}
 
 # CORS support allow fonts
 <IfModule mod_headers.c>
 <FilesMatch ".(eot|ttf|otf|woff)">
-  Header add Access-Control-Allow-Origin "*"
-  Header add Access-Control-Allow-Methods "GET"
+  Header set Access-Control-Allow-Origin "*"
+  Header set Access-Control-Allow-Methods "GET"
 </FilesMatch>
 </IfModule>
 
-{% if apache_site_https_enabled %}
+{% if apache_vhost_tls_enabled %}
  {% include 'vhost-ssl.inc.j2' %}
 {% endif %}
 
@@ -128,7 +131,7 @@ Include {{ apache_conf_available }}/blocked-agents.conf
 
 
 </VirtualHost>
-{% if apache_site_https_enabled %}
+{% if apache_vhost_tls_enabled %}
 </IfModule>
 {% endif %}
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet

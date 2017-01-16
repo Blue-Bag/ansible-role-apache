@@ -4,5 +4,5 @@
     name: "{{ item }}"
     state: installed
   #  enablerepo: "{{ apache_enablerepo }}"
-  with_items: apache_packages
-  sudo: true
+  with_items: "{{apache_packages}}"
+  become: true
