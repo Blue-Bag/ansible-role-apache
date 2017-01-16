@@ -1,24 +1,5 @@
 ---
 
-- name: Apache | set up directories
-  file:
-    path: "{{ item.path }}"
-    state: directory
-    recurse: no
-    owner: "{{ item.owner }}"
-    group: "{{ item.group }}"
-    mode: "{{ item.mode }}"
-  with_items:
-  - {
-    path: "{{ apache_default_site }}",
-    owner: "{{ apache_admin_user }}",
-    group: "{{ apache_admin_group }}",
-    mode: '0775'
-  }
-  tags: apache
-  become: true
-
-
 - name: Apache | Create www-admin group for web
   group:
     name: "{{ item }}"
@@ -37,6 +18,25 @@
     group: "{{ apache_admin_group }}"
     createhome: no
   become: true
+
+- name: Apache | set up directories
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    recurse: no
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  with_items:
+  - {
+    path: "{{ apache_default_site }}",
+    owner: "{{ apache_admin_user }}",
+    group: "{{ apache_admin_group }}",
+    mode: '0775'
+  }
+  tags: apache
+  become: true
+
 
 # Note this module requires the package python-passlib
 - name: Apache | Create User password in Auth file
