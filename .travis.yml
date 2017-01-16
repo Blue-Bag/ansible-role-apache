@@ -42,18 +42,18 @@ script:
   - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check'
 
   # Test the Ansible role.
-  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --diff'
 
-  # Test role idempotence.
-  - idempotence=$(mktemp)
-  - docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml | tee -a ${idempotence}
-  - >
-    tail ${idempotence}
-    | grep -q 'changed=0.*failed=0'
-    && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
+  # # Test role idempotence.
+  # - idempotence=$(mktemp)
+  # - docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml | tee -a ${idempotence}
+  # - >
+  #   tail ${idempotence}
+  #   | grep -q 'changed=0.*failed=0'
+  #   && (echo 'Idempotence test: pass' && exit 0)
+  #   || (echo 'Idempotence test: fail' && exit 1)
 
 
 notifications:
   slack:
-    secure: RTbjpa4LjT/hk9atjr9ZXly4DQVMc9kH6RMKjZa+qe7P8bu1ChAff4uoFx4Q6h2nA44VkByp452coyeYKsy/188J5mGf1UQz8xG3Cn6h0Feg9eFAiaQUwQTmJ5J5esLPQF3qSrzugvKWnQFDwrHC+d22SU/Z5ACowqnLbWwr+AQWJ4he7uoogZLw38EaUQZaQwokqTouf0t73uJ2fyz7go9zn3D4ty1BUoQS9wmBKR6x/OGVWay/PoNYfQMZZShQQdYkBobM6vV9aoPTiKDpqkQ4pYF8h7QXoHnlT9oit0JjG7qiT7/lipmas1Qp6DyJG0FPgXd9Ipdmq/YzLX54Co3Ks1EuufDpOYBEtmpQgC/wvM8wM0erzz5iwk84PR87XmQTIXvgByy3RPy1ay/5oS5Lq5EYgjrPdbCkhs3dGpN7KN84Oq6WRQ2/wmcpg5oWVyNkDUMC2bgr4uZSby38SxrgZ5JdoSxhqfI+qrLFM3CIwbV7zLAYbuaTNOEusPHBpC8j0/lv4uE13Hf2ROIMJLLSe16j1YGhxSqQavY3cnuSWNyzoa/kHUG+TL0rsd8QrV70PYYPK9j3GalUF/wKqQvoL40ejndaoemZRzB67zkKM7Hsrd9z+ohXzb/W80I+uPYjh80C1ZDK+Ah1Nq25ijp73LltImyUTYkPPOgR/44=
+    secure: HJPvDJMHwKN8VUr00jr5xcbdjPILJSD8qRe84MYiv2yBrizYpXt1qMfTib8cYW0LvsB1Oq/CqaQ4DKJsNqnjRwMUWd+fAehBuGUzOeOa/gfcTnWSZscq0aVEcvb8p7rUAXWvVT1hwPE0k+wIgRhlDqwwBhTqZ+M8JkjepcXG+zY8/lMZFox7BmeD6kcFBpgkLHya/BnPtEje/aTQBnxhpNvddR4o0+LWmoL81OP23s2PJS7BYiLK5HLG20/91ThhjrCWX9KJGu1kkgwfX4IUWP/AaRKqOUW7UvsCskg/8hU/+x+kBFi3iYhIKgR08NBLBp/iEOQ94QjB2Gyjz2smqeAqlnkCPCr9AVXVkfiogQVWB7ATidC5EBkQ8LFvpTkHSpbYWMKjNqw9e4g7lVsanR9WFbC+6XvfF1tH2qNLy1mb6oIHJbZdrgD5558kxpDKFH1mFIs9oVuPAYjOAHy982dW40oh8bX0ualkRVs7G4vhbDVqLjEaY5b4PG2NBJScblokILLDoD9yMmXILyXOUMf/0J3Jroak7A+9i3jzyWIE2gmyFcJfSFJP9h7t+T+vNnDK4qeNtoq3nYZ/lh8nIZUu9qu+bXFklHJhWBc6PMZL8JszkUJcJxw8HDBvOUBD4WGyxGqVjb6w9Bfq5iPiOZv4ii1N3ztUUAJpFJhnhcE=

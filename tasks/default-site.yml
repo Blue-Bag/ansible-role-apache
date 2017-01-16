@@ -1,16 +1,23 @@
 ---
+- debug: var=apache_deny_addresses
 
 - name: Apache | Put up inclusions
   template:
-    src: "bbinc/{{ item }}.j2"
-    dest: "{{ apache_conf_available }}/{{ item }}"
+    src: "bbinc/{{ item.name }}.j2"
+    dest: "{{ apache_conf_available }}/{{ item.name }}"
     mode: 0644
     owner: root
     group: root
   with_items:
-    - 'blocked-addresses.conf'
-    - 'blocked-agents.conf'
-  when: apache_deny_addresses or apache_deny_addresses
+    - {
+        name: 'blocked-addresses.conf',
+        status: "{{ apache_deny_addresses }}"
+      }
+    - {
+        name: 'blocked-agents.conf',
+        status: "{{ apache_deny_agents }}"
+      }
+  when: item.status
   become: true
   tags: [apache]
 
