@@ -1,6 +1,8 @@
 Role Name
 =========
 
+[![Build Status](https://travis-ci.org/Blue-Bag/ansible-role-apache.svg?branch=master)](https://travis-ci.org/Blue-Bag/ansible-role-apache)
+
 This role has taken from geerling guy and combined with BBApache setup
 
 Differences to geerlingguy
