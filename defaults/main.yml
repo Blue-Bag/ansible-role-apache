@@ -167,8 +167,8 @@ apache_ssl_cipher_suite: "AES256+EECDH:AES256+EDH"
 
 # on | off
 apache_ssl_usestapling: 'off'
-apache_deny_addresses: false
-apache_deny_agents: false
+apache_deny_addresses: no
+apache_deny_agents: no
 apache_blocked_addresses:
   - '96\.47\.22(4|5)\.*'
   - '173\.44\.37\.*'
