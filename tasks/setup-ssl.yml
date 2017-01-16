@@ -57,7 +57,7 @@
     owner: root
   with_items:
     - {
-       path: '{{ ssl_certs_dir}}',
+       path: '{{ ssl_certs_dir }}',
        mode: '0755'
        }
     - {
@@ -65,7 +65,7 @@
        mode: '0700'
        }
   become: true
-  when: ssl_cert_upload
+  when: ssl_cert_upload and (ssl_certs_dir is defined and ssl_private_dir is defined)
   tags: [ssl]
 
 
