@@ -1,0 +1,59 @@
+---
+# We need sudo for some of the Docker commands.
+sudo: required
+
+env:
+  # - distro: centos7
+  #   init: /usr/lib/systemd/systemd
+  #   run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+  # - distro: centos6
+  #   init: /sbin/init
+  #   run_opts: ""
+  # - distro: fedora24
+  #   init: /usr/lib/systemd/systemd
+  #   run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+  # - distro: ubuntu1604
+  #   init: /lib/systemd/systemd
+  #   run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+  # - distro: ubuntu1404
+  #   init: /sbin/init
+  #   run_opts: ""
+  - distro: debian8
+    init: /lib/systemd/systemd
+    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+
+# Tell Travis to start Docker when it brings up an environment.
+services:
+  - docker
+
+before_install:
+  # Pull container from Docker Hub.
+  - 'docker pull geerlingguy/docker-${distro}-ansible:latest'
+
+script:
+  # Create a random file to store the container ID.
+  - container_id=$(mktemp)
+
+  # Run container detached, with our role mounted inside.
+  - 'docker run --detach --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} geerlingguy/docker-${distro}-ansible:latest "${init}" > "${container_id}"'
+
+
+  # Ansible syntax check.
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check'
+
+  # Test the Ansible role.
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml'
+
+  # Test role idempotence.
+  - idempotence=$(mktemp)
+  - docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml | tee -a ${idempotence}
+  - >
+    tail ${idempotence}
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
+
+
+notifications:
+  slack:
+    secure: RTbjpa4LjT/hk9atjr9ZXly4DQVMc9kH6RMKjZa+qe7P8bu1ChAff4uoFx4Q6h2nA44VkByp452coyeYKsy/188J5mGf1UQz8xG3Cn6h0Feg9eFAiaQUwQTmJ5J5esLPQF3qSrzugvKWnQFDwrHC+d22SU/Z5ACowqnLbWwr+AQWJ4he7uoogZLw38EaUQZaQwokqTouf0t73uJ2fyz7go9zn3D4ty1BUoQS9wmBKR6x/OGVWay/PoNYfQMZZShQQdYkBobM6vV9aoPTiKDpqkQ4pYF8h7QXoHnlT9oit0JjG7qiT7/lipmas1Qp6DyJG0FPgXd9Ipdmq/YzLX54Co3Ks1EuufDpOYBEtmpQgC/wvM8wM0erzz5iwk84PR87XmQTIXvgByy3RPy1ay/5oS5Lq5EYgjrPdbCkhs3dGpN7KN84Oq6WRQ2/wmcpg5oWVyNkDUMC2bgr4uZSby38SxrgZ5JdoSxhqfI+qrLFM3CIwbV7zLAYbuaTNOEusPHBpC8j0/lv4uE13Hf2ROIMJLLSe16j1YGhxSqQavY3cnuSWNyzoa/kHUG+TL0rsd8QrV70PYYPK9j3GalUF/wKqQvoL40ejndaoemZRzB67zkKM7Hsrd9z+ohXzb/W80I+uPYjh80C1ZDK+Ah1Nq25ijp73LltImyUTYkPPOgR/44=
