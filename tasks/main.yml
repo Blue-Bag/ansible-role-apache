@@ -42,6 +42,7 @@
   when: "ansible_os_family == 'RedHat' and apache_version.split('.')[1] == '4'"
 
 - include: setup-ssl.yml
+  static: false
   when: apache_tls_enabled
 
 - include: configure-proxy.yml

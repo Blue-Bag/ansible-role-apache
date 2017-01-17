@@ -120,9 +120,9 @@ apache_ip_whitelist: []
 apache_tls_enabled: no
 
 # is the vhost listening for apache_tls_enabled
-apache_vhost_tls_enabled: false
+apache_vhost_tls_enabled: no
 # is the default site ssl enabled
-apache_site_https_enabled: false
+apache_site_https_enabled: no
 
 # if we have the certificates and keys locally and want to upload them
 # set to true and provide a list of certificates with
@@ -153,7 +153,7 @@ apache_site_https_enabled: false
 #      mode: "0640"
 #      }
 
-ssl_cert_upload: False
+ssl_cert_upload: no
 #ssl_certificate: []
 #ssl_certificate_key: []
 #ssl_certificate_chain:[]
