@@ -1,7 +1,7 @@
 ---
 # requires work
 
-- name: Configure Apache.
+- name: Configure Apache 2.4 (RedHat).
   lineinfile:
     dest: "{{ apache_server_root }}/conf/{{ apache_daemon }}.conf"
     regexp: "{{ item.regexp }}"
