@@ -1,0 +1,9 @@
+/var/log/{{ apache_daemon }}/*log {
+    missingok
+    notifempty
+    sharedscripts
+    delaycompress
+    postrotate
+        /sbin/service {{ apache_daemon }} reload > /dev/null 2>/dev/null || true
+    endscript
+}

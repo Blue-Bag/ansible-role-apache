@@ -10,3 +10,4 @@
   with_items: "{{apache_ports_configuration_items}}"
   notify: restart apache
   become: true
+

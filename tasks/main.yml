@@ -50,6 +50,15 @@
 
 - include: default-site.yml
 
+- name: Create logrotate entry for apache logs
+  template:
+    src: logrotate-{{ apache_daemon }}.j2
+    dest: "/etc/logrotate.d/{{ apache_daemon }}"
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
 - name: Ensure Apache is started and enabled on boot.
   service:
     name: "{{ apache_daemon }}"
