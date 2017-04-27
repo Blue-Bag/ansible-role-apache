@@ -7,11 +7,13 @@ Listen {{ apache_listen_port }}
 
 {% if apache_vhosts_version == '2.2' %}
 <IfModule mod_ssl.c>
+    NameVirtualHost *:{{ apache_listen_port_ssl }}
     Listen {{ apache_listen_port_ssl }}
 </IfModule>
 {% else %}
 <IfModule ssl_module>
-        Listen {{ apache_listen_port_ssl }}
+    NameVirtualHost *:{{ apache_listen_port_ssl }}
+    Listen {{ apache_listen_port_ssl }}
 </IfModule>
 {% endif %}
 
