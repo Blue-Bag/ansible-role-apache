@@ -51,6 +51,7 @@
   with_items:
     -  "{{ apache_auth_users }}"
   become: true
+  tags: [apache,htpassword]
 
 
 # Todo write the authgroup file

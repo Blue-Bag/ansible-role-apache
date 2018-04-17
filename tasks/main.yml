@@ -15,10 +15,10 @@
     apache_packages: "{{ __apache_packages | list }}"
   when: apache_packages is not defined
 
-- import_tasks: setup-Debian.yml
+- include_tasks: setup-Debian.yml
   when: ansible_os_family == 'Debian'
 
-- import_tasks: setup-RedHat.yml
+- include_tasks: setup-RedHat.yml
   when: ansible_os_family == 'RedHat'
 
 # Common setup
@@ -32,17 +32,16 @@
 
 # Configure Apache.
 
-- import_tasks: configure-Debian.yml
+- include_tasks: configure-Debian.yml
   when: ansible_os_family == 'Debian'
 
-- import_tasks: configure-Redhat-22.yml
+- include_tasks: configure-Redhat-22.yml
   when: "ansible_os_family == 'RedHat' and apache_version.split('.')[1] == '2'"
 
-- import_tasks: configure-Redhat-24.yml
+- include_tasks: configure-Redhat-24.yml
   when: "ansible_os_family == 'RedHat' and apache_version.split('.')[1] == '4'"
 
 - import_tasks: setup-ssl.yml
-  static: false
   when: apache_tls_enabled
 
 - import_tasks: configure-proxy.yml
