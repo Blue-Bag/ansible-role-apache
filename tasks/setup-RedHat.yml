@@ -2,7 +2,7 @@
 - name: RedHat | Ensure Apache is installed.
   yum:
     name: "{{ item }}"
-    state: installed
+    state: present
   #  enablerepo: "{{ apache_enablerepo }}"
   with_items: "{{apache_packages}}"
   become: true
