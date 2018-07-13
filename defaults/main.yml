@@ -198,7 +198,6 @@ apache_blocked_agents:
   - 'WEP Search'
   - 'Missigua Locator'
   - 'ISC Systems iRc'
-  - 'lwp-trivial'
   - 'GbPlugin'
   - 'EmailSiphon'
   - 'EmailWolf'
@@ -209,7 +208,19 @@ apache_blocked_agents:
   - 'Fetchbot'
   - 'SISTRIX'
   - 'Go-http-client'
-
-
-
+  - 'zgrab/0.x'
+  - 'Jorgee'
+  - 'Go 1.1 package http'
+  - 'XoviBot'
+  - 'MegaIndex.ru/2.0'
+  - 'AhrefsBot'
+  - 'Gigabot/3.0'
+  - 'Python-urllib'
+  - 'Scrapy'
+  - 'ZmEu'
+  - 'sysscan/1.0'
+  - 'Qwantify'
+  - 'muhstik-scan'
+  - 'muhstik'
+  - 'zgrab/0.x'
 
