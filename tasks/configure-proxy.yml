@@ -1,5 +1,16 @@
 ---
 
+# we may need to configure it before enabling
+- name: Apache | Configure remoteip
+  template:
+    src: apache_remoteip.conf.j2
+    dest: "{{ apache_mods_available }}/remoteip.conf"
+    mode: 0644
+    owner: root
+    group: root
+  when: apache_vhosts_version == '2.4' and apache_proxy == true
+  notify: restart apache
+  become: true
 
 - name: Apache | Enable remoteip Apache mod.
   apache2_module: state=present name={{ item }}
@@ -28,13 +39,4 @@
   # become: true
   # notify: restart apache
 
-- name: Apache | Configure remoteip
-  template:
-    src: apache_remoteip.conf.j2
-    dest: "{{ apache_mods_available }}/remoteip.conf"
-    mode: 0644
-    owner: root
-    group: root
-  when: apache_vhosts_version == '2.4' and apache_proxy == true
-  notify: restart apache
-  become: true
+
