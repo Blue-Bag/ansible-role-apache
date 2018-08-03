@@ -1,5 +1,9 @@
 <IfModule remoteip_module>
 RemoteIPHeader {{ apache_proxy_header | default('X-Forwarded-For') }}
+RemoteIPProxiesHeader {{ apache_proxy_header_by  | default('X-Forwarded-By') }}
+{% if apache_remoteproxy_ips_list %}
+RemoteIPTrustedProxyList {{ apache_remoteproxy_ips_list.filename}}
+{% endif %}
 {% for ip in apache_proxy_ips %}
 RemoteIPInternalProxy {{ ip }}
 {% endfor %}

@@ -1,5 +1,17 @@
 ---
 
+
+- name: Apache | get remote proxy list
+  template:
+    src: apache_remoteip_proxylist.conf.j2
+    dest: "{{ apache_remoteproxy_ips_list.filename }}"
+    mode: 0644
+    owner: root
+    group: root
+  when: apache_vhosts_version == '2.4' and apache_proxy == true and apache_remoteproxy_ips_list
+  notify: restart apache
+  become: true
+
 # we may need to configure it before enabling
 - name: Apache | Configure remoteip
   template:
