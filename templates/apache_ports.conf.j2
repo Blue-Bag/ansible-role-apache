@@ -12,7 +12,6 @@ Listen {{ apache_listen_port }}
 </IfModule>
 {% else %}
 <IfModule ssl_module>
-    NameVirtualHost *:{{ apache_listen_port_ssl }}
     Listen {{ apache_listen_port_ssl }}
 </IfModule>
 {% endif %}
