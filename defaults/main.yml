@@ -207,7 +207,7 @@ apache_blocked_addresses:
   - '62\.116\.110\.111'
   - '109\.201\.137\.166'
   - '61\.160\.213\.56'
-
+  - '158\.69\.204\.132'
 apache_blocked_agents:
   - 'Jakarta'
   - 'User-Agent'
@@ -243,4 +243,5 @@ apache_blocked_agents:
   - 'muhstik-scan'
   - 'muhstik'
   - 'zgrab/0.x'
+  - 'python-requests'
 
