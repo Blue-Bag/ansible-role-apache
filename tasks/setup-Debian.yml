@@ -4,12 +4,14 @@
   become: true
 
 - name: Debian | Ensure Apache is installed.
-  apt: "name={{ item }} state=present"
-  with_items: "{{apache_packages}}"
+  apt:
+    name: "{{apache_packages}}"
+    state: present
   become: true
 
 - name: Ensure MySQL packages are installed (client).
-  apt: "name={{ item }} state=present"
-  with_items: "{{apache_mysql_packages}}"
+  apt:
+    name: "{{apache_mysql_packages}}"
+    state: present
   when: apache_remote_db
   become: true
