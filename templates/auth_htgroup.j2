@@ -1,4 +1,4 @@
-#{{ ansible_managed }}
+#{{ ansible_managed | comment }}
 {% for group in apache_auth_groups %}
 {{ group.groupname }}: {{ group.members }}
 {% endfor %}
