@@ -15,40 +15,39 @@
     apache_packages: "{{ __apache_packages | list }}"
   when: apache_packages is not defined
 
-- include: setup-Debian.yml
+- include_tasks: setup-Debian.yml
   when: ansible_os_family == 'Debian'
 
-- include: setup-RedHat.yml
+- include_tasks: setup-RedHat.yml
   when: ansible_os_family == 'RedHat'
 
 # Common setup
-- include: setup-common.yml
+- import_tasks: setup-common.yml
   tags: [apache_setup]
 
 
 # determine apache version
-- include: apache-version.yml
+- import_tasks: apache-version.yml
 
 
 # Configure Apache.
 
-- include: configure-Debian.yml
+- include_tasks: configure-Debian.yml
   when: ansible_os_family == 'Debian'
 
-- include: configure-Redhat-22.yml
+- include_tasks: configure-Redhat-22.yml
   when: "ansible_os_family == 'RedHat' and apache_version.split('.')[1] == '2'"
 
-- include: configure-Redhat-24.yml
+- include_tasks: configure-Redhat-24.yml
   when: "ansible_os_family == 'RedHat' and apache_version.split('.')[1] == '4'"
 
-- include: setup-ssl.yml
-  static: false
+- import_tasks: setup-ssl.yml
   when: apache_tls_enabled
 
-- include: configure-proxy.yml
+- import_tasks: configure-proxy.yml
   when: apache_proxy
 
-- include: default-site.yml
+- import_tasks: default-site.yml
 
 - name: Create logrotate entry for apache logs
   template:

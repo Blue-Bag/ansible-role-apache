@@ -1,87 +1,87 @@
 ---
 
-- name: Define SSL directories (private).
-  set_fact:
-    ssl_private_dir: "{{ __ssl_private_dir }}"
-  when: ssl_private_dir is not defined
+- block:
+    - name: Define SSL directories (private).
+      set_fact:
+        ssl_private_dir: "{{ __ssl_private_dir }}"
+      when: ssl_private_dir is not defined
 
-- name: Define SSL directories (certs).
-  set_fact:
-    ssl_certs_dir: "{{ __ssl_certs_dir }}"
-  when: ssl_certs_dir is not defined
-
-
-- name: Setup default mod_ssl config
-  template:
-    src: apache_ssl.conf.j2
-    dest: "{{ apache_mods_available }}/ssl.conf"
-    owner: root
-    group: root
-    mode: 0644
-  become: true
-  tags: [ssl]
-  when: ansible_os_family == 'Debian'
-
-- name: Setup default mod_ssl config
-  template:
-    src: apache_ssl_redhat.conf.j2
-    dest: "{{ apache_mods_available }}/ssl.conf"
-    owner: root
-    group: root
-    mode: 0644
-  become: true
-  tags: [ssl]
-  when: ansible_os_family == 'RedHat'
-
-- name: Ensure ssl-certs group is present
-  group:
-    name: ssl-cert
-    state: present
-  become: true
-  tags: [ssl]
-
-- name: Make sure Webserver run user is in ssl-cert group
-  user:
-    name: "{{ apache_run_user }}"
-    groups: ssl-cert
-    append: true
-  become: true
-  tags: [ssl]
-
-- name: Ensure the ssl certs dir exists
-  file:
-    path: "{{ item.path }}"
-    mode: "{{ item.mode }}"
-    state: directory
-    recurse: yes
-    owner: root
-  with_items:
-    - {
-       path: '{{ ssl_certs_dir }}',
-       mode: '0755'
-       }
-    - {
-       path: '{{ ssl_private_dir }}',
-       mode: '0700'
-       }
-  become: true
-  when: ssl_cert_upload and (ssl_certs_dir is defined and ssl_private_dir is defined)
-  tags: [ssl]
+    - name: Define SSL directories (certs).
+      set_fact:
+        ssl_certs_dir: "{{ __ssl_certs_dir }}"
+      when: ssl_certs_dir is not defined
 
 
-- name: Put certificate files in place
-  copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: "{{ item.mode }}"
-    group: ssl-cert
-  with_items:
-    - "{{ ssl_certificate }}"
-    - "{{ ssl_certificate_key }}"
-    - "{{ ssl_certificate_chain|default([]) }}"
-  when: ssl_cert_upload
-  become: true
-  tags: [ssl]
-  notify: restart apache
+    - name: Setup default mod_ssl config
+      template:
+        src: apache_ssl.conf.j2
+        dest: "{{ apache_mods_available }}/ssl.conf"
+        owner: root
+        group: root
+        mode: 0644
+      become: true
+      tags: [ssl]
+      when: ansible_os_family == 'Debian'
+
+    - name: Setup default mod_ssl config
+      template:
+        src: apache_ssl_redhat.conf.j2
+        dest: "{{ apache_mods_available }}/ssl.conf"
+        owner: root
+        group: root
+        mode: 0644
+      become: true
+      tags: [ssl]
+      when: ansible_os_family == 'RedHat'
+
+    - name: Ensure ssl-certs group is present
+      group:
+        name: ssl-cert
+        state: present
+      become: true
+      tags: [ssl]
+
+    - name: Make sure Webserver run user is in ssl-cert group
+      user:
+        name: "{{ apache_run_user }}"
+        groups: ssl-cert
+        append: true
+      become: true
+      tags: [ssl]
+
+    - name: Ensure the ssl certs dir exists
+      file:
+        path: "{{ item.path }}"
+        mode: "{{ item.mode }}"
+        state: directory
+        recurse: yes
+        owner: root
+      with_items:
+        - {
+           path: '{{ ssl_certs_dir }}',
+           mode: '0755'
+           }
+        - {
+           path: '{{ ssl_private_dir }}',
+           mode: '0700'
+           }
+      become: true
+      when: ssl_cert_upload and (ssl_certs_dir is defined and ssl_private_dir is defined)
+      tags: [ssl]
 
 
+    - name: Put certificate files in place
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: "{{ item.mode }}"
+        group: ssl-cert
+      with_items:
+        - "{{ ssl_certificate }}"
+        - "{{ ssl_certificate_key }}"
+        - "{{ ssl_certificate_chain|default([]) }}"
+      when: ssl_cert_upload
+      become: true
+      tags: [ssl]
+      notify: restart apache
+  when: apache_tls_enabled

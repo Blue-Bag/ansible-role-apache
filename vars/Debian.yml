@@ -17,7 +17,6 @@ apache_conf_main: "apache2.conf"
 
 __apache_packages:
    - apache2
-   - apache2-mpm-prefork
    - apache2-utils
    - python-passlib
 

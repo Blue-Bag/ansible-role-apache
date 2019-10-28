@@ -1,6 +1,29 @@
 ---
 
 
+- name: Apache | get remote proxy list
+  template:
+    src: apache_remoteip_proxylist.conf.j2
+    dest: "{{ apache_remoteproxy_ips_list.filename }}"
+    mode: 0644
+    owner: root
+    group: root
+  when: apache_vhosts_version == '2.4' and apache_proxy == true and apache_remoteproxy_ips_list
+  notify: restart apache
+  become: true
+
+# we may need to configure it before enabling
+- name: Apache | Configure remoteip
+  template:
+    src: apache_remoteip.conf.j2
+    dest: "{{ apache_mods_available }}/remoteip.conf"
+    mode: 0644
+    owner: root
+    group: root
+  when: apache_vhosts_version == '2.4' and apache_proxy == true
+  notify: restart apache
+  become: true
+
 - name: Apache | Enable remoteip Apache mod.
   apache2_module: state=present name={{ item }}
   with_items:
@@ -28,13 +51,4 @@
   # become: true
   # notify: restart apache
 
-- name: Apache | Configure remoteip
-  template:
-    src: apache_remoteip.conf.j2
-    dest: "{{ apache_mods_available }}/remoteip.conf"
-    mode: 0644
-    owner: root
-    group: root
-  when: apache_vhosts_version == '2.4' and apache_proxy == true
-  notify: restart apache
-  become: true
+
