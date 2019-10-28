@@ -244,4 +244,4 @@ apache_blocked_agents:
   - 'muhstik'
   - 'zgrab/0.x'
   - 'python-requests'
-
+  - 'Daum/4.1'
