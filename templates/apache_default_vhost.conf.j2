@@ -1,4 +1,4 @@
-# {{ ansible_managed }}
+# {{ ansible_managed | comment }}
 {% if apache_vhost_tls_enabled %}
 {% include 'vhost80-443.j2' %}
 {% endif %}
