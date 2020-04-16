@@ -1,7 +1,7 @@
 #{{ ansible_managed | comment }}
 ErrorLog /var/log/apache2/error_log
 {% if apache_vhosts_version == '2.4' %}
-Include {{ apache_conf_available }}
+Include {{ apache_conf_available }}/*.conf
 Include {{ apache_mods_enabled }}/*.conf
 Include {{ apache_mods_enabled }}/*.load
 {% else %}
