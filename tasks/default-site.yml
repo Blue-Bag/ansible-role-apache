@@ -36,7 +36,7 @@
   set_fact:
     apache_conf_to_test: "{{ apache_vhost_available }}/{{ apache_default_vhost }}"
 
-- name: Apache | test Updated hosts # noqa 503
+- name: Apache | test Updated hosts  # noqa 503
   template:
     src: config_test.conf.j2
     dest: "/tmp/config_test.conf"
@@ -105,7 +105,7 @@
   become: true
   tags: [apache]
 
-- name: Apache | Correct ownership (files) # noqa 302
+- name: Apache | Correct ownership (files)  # noqa 302
   command: chown -hR {{ apache_admin_user }}:{{ apache_admin_group }} {{ apache_default_site }}
   changed_when: false
   when: apache_rsync_default_site
