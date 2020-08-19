@@ -138,7 +138,7 @@ apache_auth_groups: []
 # }
 
 # used for auth protection
-apache_ip_whitelist: []
+apache_ip_allowlist: []
 
 # is the server ssl enabled (set up sssl)
 apache_tls_enabled: false

@@ -92,7 +92,7 @@
   ExpiresByType text/css A17200
 </IfModule>
 
-#   Include /etc/apache2/whitelist-addresses.conf
+#   Include /etc/apache2/allowlist-addresses.conf
 
 # require password for admin files or allow from an IP
 <FilesMatch "([^index].*\.php|[^robots].*\.txt)$">
@@ -101,14 +101,14 @@
    AuthType basic
    Require valid-user
    {% if apache_vhosts_version == '2.4' %}
-     {% for entry in apache_ip_whitelist %}
+     {% for entry in apache_ip_allowlist %}
    Require ip {{ entry.ip }}
      {% endfor %}
    {% else %}
    Order deny,allow
    Deny from all
    Allow from 127.0.0.1
-     {% for entry in apache_ip_whitelist %}
+     {% for entry in apache_ip_allowlist %}
    Allow from {{ entry.ip }}
      {% endfor %}
     Satisfy Any

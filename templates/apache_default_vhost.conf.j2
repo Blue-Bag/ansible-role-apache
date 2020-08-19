@@ -46,7 +46,7 @@
    {% endif %}
   <RequireAll>
     <RequireAny>
-     {% for entry in incoming_ip_whitelist %}
+     {% for entry in apache_ip_allowlist %}
    Require ip {{ entry.ip }}
     {% endfor %}
     </RequireAny>
@@ -55,7 +55,7 @@
    Order deny,allow
    Deny from all
    Allow from 127.0.0.1
-     {% for entry in incoming_ip_whitelist %}
+     {% for entry in apache_ip_allowlist %}
    Allow from {{ entry.ip }}
      {% endfor %}
    {% endif %}
