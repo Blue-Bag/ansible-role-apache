@@ -33,8 +33,6 @@ apache_conf_vars:
     line: "ServerAdmin {{ apache_server_admin }}"
   }
 
-
-
 # vars for apache security
 apache_security_vars:
   - {

@@ -3,7 +3,7 @@
 - name: Get installed version of Apache.
   command: "{{ apache_daemon }} -v"
   changed_when: false
-  check_mode: no
+  check_mode: false
   register: _apache_version
   become: true
 
@@ -11,9 +11,10 @@
   set_fact:
     apache_version: "{{ _apache_version.stdout.split()[2].split('/')[1] }}"
 
-- include_vars: apache-22.yml
+- name: get apache vars
+  include_vars: apache-22.yml
   when: "apache_version.split('.')[1] == '2'"
 
-- include_vars: apache-24.yml
+- name: get apache vars
+  include_vars: apache-24.yml
   when: "apache_version.split('.')[1] == '4'"
-

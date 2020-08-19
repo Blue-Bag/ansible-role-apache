@@ -16,35 +16,35 @@ apache_auth_htgroup_file: "{{ apache_server_root }}/.htpasswds/groupfile"
 apache_conf_main: "apache2.conf"
 
 __apache_packages:
-   - apache2
-   - apache2-utils
-   - python-passlib
+  - apache2
+  - apache2-utils
+  - python-passlib
 
 apache_enable_mods:
-   - rewrite
-   - deflate
-   - expires
-   - vhost_alias
-   - headers
-   - setenvif
-   - auth_basic
-   - authn_core
-   - authn_file
-   - authz_core
-   - authz_groupfile
-   - authz_user
-   - authz_host
-   - reqtimeout
-   - ssl
+  - rewrite
+  - deflate
+  - expires
+  - vhost_alias
+  - headers
+  - setenvif
+  - auth_basic
+  - authn_core
+  - authn_file
+  - authz_core
+  - authz_groupfile
+  - authz_user
+  - authz_host
+  - reqtimeout
+  - ssl
 
 
 apache_disable_mods:
-   - proxy
-   - proxy_ftp
-   - proxy_http
-   - proxy_connect
-   - status
-#   - autoindex
+  - proxy
+  - proxy_ftp
+  - proxy_http
+  - proxy_connect
+  - status
+#  - autoindex
 
 apache_mysql_packages:
   - mysql-client

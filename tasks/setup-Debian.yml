@@ -5,13 +5,13 @@
 
 - name: Debian | Ensure Apache is installed.
   apt:
-    name: "{{apache_packages}}"
+    name: "{{ apache_packages }}"
     state: present
   become: true
 
 - name: Ensure MySQL packages are installed (client).
   apt:
-    name: "{{apache_mysql_packages}}"
+    name: "{{ apache_mysql_packages }}"
     state: present
   when: apache_remote_db
   become: true

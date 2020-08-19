@@ -14,26 +14,26 @@
   user:
     name: "{{ apache_admin_user }}"
     groups: "{{ apache_run_group }}"
-    append: yes
+    append: true
     group: "{{ apache_admin_group }}"
-    createhome: no
+    createhome: false
   become: true
 
 - name: Apache | set up directories
   file:
     path: "{{ item.path }}"
     state: directory
-    recurse: no
+    recurse: false
     owner: "{{ item.owner }}"
     group: "{{ item.group }}"
     mode: "{{ item.mode }}"
   with_items:
-  - {
-    path: "{{ apache_default_site }}",
-    owner: "{{ apache_admin_user }}",
-    group: "{{ apache_admin_group }}",
-    mode: '0775'
-  }
+    - {
+      path: "{{ apache_default_site }}",
+      owner: "{{ apache_admin_user }}",
+      group: "{{ apache_admin_group }}",
+      mode: '0775'
+    }
   tags: apache
   become: true
 
@@ -41,17 +41,17 @@
 # Note this module requires the package python-passlib
 - name: Apache | Create User password in Auth file
   htpasswd:
-     path: "{{ apache_auth_htpasswd_file }}"
-     name: "{{ item.username }}"
-     password: "{{ item.password }}"
-     owner: root
-     group: "{{ apache_admin_user }}"
-     mode: 0644
-  no_log: True
+    path: "{{ apache_auth_htpasswd_file }}"
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+    owner: root
+    group: "{{ apache_admin_user }}"
+    mode: 0644
+  no_log: true
   with_items:
-    -  "{{ apache_auth_users }}"
+    - "{{ apache_auth_users }}"
   become: true
-  tags: [apache,htpassword]
+  tags: [apache, htpassword]
 
 
 # Todo write the authgroup file
@@ -66,14 +66,14 @@
     mode: 0644
   when: apache_auth_groups |length > 0
   become: true
-  tags: [apache,htpassword]
+  tags: [apache, htpassword]
 
 # Apache user www-data is created on install of apache
 # but may be apache on centos
 - name: Apache | Add apache www-data user
   user:
     name: "{{ apache_run_user }}"
-    append: yes
+    append: true
     group: "{{ apache_run_group }}"
-    createhome: no
+    createhome: false
   become: true

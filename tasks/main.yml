@@ -15,9 +15,6 @@
         - "vars/{{ ansible_os_family }}.yml"
       skip: true
 
-
-
-
 # Setup/install tasks.
 # Base install of Apache
 
@@ -73,5 +70,5 @@
   service:
     name: "{{ apache_daemon }}"
     state: started
-    enabled: yes
+    enabled: true
   become: true

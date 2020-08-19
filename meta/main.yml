@@ -1,19 +1,19 @@
 ---
 galaxy_info:
   author: George Boobyer
-  description:
+  description: Setup Apache webserver
   company: "Blue-Bag Ltd"
   license: MIT / BSD
   min_ansible_version: 1.2
   platforms:
-  - name: Ubuntu
-    versions:
-    - all
-    - trusty
-  - name: Debian
-    versions:
-    - squeeze
-    - wheezy
-  categories:
+    - name: Ubuntu
+      versions:
+        - all
+        - trusty
+    - name: Debian
+      versions:
+        - squeeze
+        - wheezy
+  galaxy_tags:
     - web
 dependencies: []
