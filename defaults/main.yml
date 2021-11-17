@@ -250,3 +250,5 @@ apache_blocked_agents:
   - 'zgrab/0.x'
   - 'python-requests'
   - 'Daum/4.1'
+  - 'Barkrowler'
+  - 'PostmanRuntime'
