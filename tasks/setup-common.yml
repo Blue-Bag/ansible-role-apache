@@ -75,5 +75,6 @@
     name: "{{ apache_run_user }}"
     append: true
     group: "{{ apache_run_group }}"
+    groups: "{{ apache_run_group }}"
     createhome: false
   become: true
