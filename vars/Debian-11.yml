@@ -1,0 +1,53 @@
+---
+
+# apache
+
+apache_daemon: apache2
+apache_server_root: "/etc/apache2"
+
+apache_vhost_available: "{{ apache_server_root }}/sites-available"
+apache_vhost_enabled: "{{ apache_server_root }}/sites-enabled"
+apache_mods_available: "{{ apache_server_root }}/mods-available"
+apache_mods_enabled: "{{ apache_server_root }}/mods-enabled"
+
+apache_auth_htpasswd_file: "{{ apache_server_root }}/.htpasswds/passwdfile"
+apache_auth_htgroup_file: "{{ apache_server_root }}/.htpasswds/groupfile"
+
+apache_conf_main: "apache2.conf"
+
+__apache_packages:
+  - apache2
+  - apache2-utils
+  - python3-passlib
+
+apache_enable_mods:
+  - rewrite
+  - deflate
+  - expires
+  - vhost_alias
+  - headers
+  - setenvif
+  - auth_basic
+  - authn_core
+  - authn_file
+  - authz_core
+  - authz_groupfile
+  - authz_user
+  - authz_host
+  - reqtimeout
+  - ssl
+
+
+apache_disable_mods:
+  - proxy
+  - proxy_ftp
+  - proxy_http
+  - proxy_connect
+  - status
+#  - autoindex
+
+apache_mysql_packages:
+  - default-mysql-client
+
+__ssl_private_dir: '/etc/ssl/private'
+__ssl_certs_dir: '/etc/ssl/certs'
