@@ -80,6 +80,7 @@
         - "{{ ssl_certificate }}"
         - "{{ ssl_certificate_key }}"
         - "{{ ssl_certificate_chain|default([]) }}"
+        - "{{ ssl_certificate_fullchain|default([]) }}"
       when: ssl_cert_upload
       become: true
       tags: [ssl]
