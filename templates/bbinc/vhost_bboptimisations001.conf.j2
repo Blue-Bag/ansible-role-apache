@@ -22,8 +22,8 @@
     {% if http_headers is defined %}
     {% for httpheader in http_headers %}
       {% if not httpheader.secure or (httpheader.secure and apache_site_https_enabled) %}
-      Header {{ httpheader.level }} {{ httpheader.name }} "{{ httpheader.value}}"
-      {% endif %}
+      Header {{ httpheader.level }} {{ httpheader.name }} {% if httpheader.value is defined %}"{{ httpheader.value}}"{% endif %} 
+    {% endif %}
     {% endfor %}
     {% else %}
         Header set {{ server_header }}
