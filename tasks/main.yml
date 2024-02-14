@@ -60,6 +60,7 @@
 
 - import_tasks: configure-proxy.yml
   when: apache_proxy
+  tags: [proxy]
 
 - import_tasks: default-site.yml
 
