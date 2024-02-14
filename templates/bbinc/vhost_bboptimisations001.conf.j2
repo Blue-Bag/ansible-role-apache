@@ -11,23 +11,20 @@
 ## ENVIRONMENT VARIABLES ###
  SetEnv TZ {{ apache_timezone }}
 
-{% if apache_server_header is defined and apache_server_header != '' %}
-<IfModule mod_headers.c>
-    Header set {{ apache_server_header }}
-</IfModule>
-{% endif %}
-
-
  <IfModule mod_headers.c>
-    {% if http_headers is defined %}
-    {% for httpheader in http_headers %}
-      {% if not httpheader.secure or (httpheader.secure and apache_site_https_enabled) %}
+    {%- if http_headers is defined -%}
+    {%- for httpheader in http_headers -%}
+      {%- if not httpheader.secure or (httpheader.secure and apache_site_https_enabled) -%}
       Header {{ httpheader.level }} {{ httpheader.name }} {% if httpheader.value is defined %}"{{ httpheader.value}}"{% endif %} 
-    {% endif %}
-    {% endfor %}
-    {% else %}
-        Header set {{ server_header }}
-    {% endif %}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- else -%}
+       {%- if (apache_server_header is defined and apache_server_header != '')  -%}
+    Header set {{ apache_server_header }}
+       {%- else -%}
+    Header set {{ server_header }}
+       {%- endif -%}
+    {%- endif -%}
   </IfModule>
 
 ## ERRORDOCUMENTS ###
