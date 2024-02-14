@@ -8,14 +8,14 @@ apache_remote_db: true
 # default site
 # could use a template or fileglob
 # path to files for the default site
-apache_default_site_files: "default-site"
+apache_default_site_files: 'default-site'
 
-apache_server_admin: "root@localhost"
+apache_server_admin: 'root@localhost'
 
 apache_webserver_hostname: "{{ inventory_hostname }}"
 # apache_webserver_hostname_alias:
 
-apache_timezone: "Europe/London"
+apache_timezone: 'Europe/London'
 
 # the following is deprecated in favour of http_headers
 apache_server_header: ''
@@ -33,9 +33,9 @@ apache_server_header: ''
 #       level: 'always set'
 #   }
 
-apache_server_stage: "live"
+apache_server_stage: 'live'
 
-apache_home_dir: "/var/www"
+apache_home_dir: '/var/www'
 apache_default_site: "{{ apache_home_dir }}/default"
 # default is to file_glob the default site
 # if you have folders to recurse then use rsync
@@ -78,7 +78,8 @@ apache_remoteproxy_ips_list: []
 #     - '103.21.244.0/22'
 #     - '103.22.200.0/22'
 #     - '103.31.4.0/22'
-#     - '104.16.0.0/12'
+#     - '104.16.0.0/13'
+#     - '104.24.0.0/14' 
 #     - '108.162.192.0/18'
 #     - '131.0.72.0/22'
 #     - '141.101.64.0/18'
@@ -90,35 +91,37 @@ apache_remoteproxy_ips_list: []
 #     - '197.234.240.0/22'
 #     - '198.41.128.0/17'
 
-apache_proxy_log: "absent"
-# apache_vhc_format: 'LogFormat "%v:%p \"%{X-Forwarded-For}i\" %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhostproxy_combined'
+
+apache_proxy_log: 'absent'
+# apache_vhc_format: 'LogFormat '%v:%p \'%{X-Forwarded-For}i\' %l %u %t \'%r\' %>s %O \'%{Referer}i\' \'%{User-Agent}i\'' vhostproxy_combined'
 # This new format allows for failtoban and proxy address
 apache_vhc_format: 'LogFormat "%a %v:%p %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhostproxy_combined'
+
 apache_server_status_enabled: false
 
 # ENVARS
-apache_run_user: "www-data"
-apache_run_group: "www-data"
+apache_run_user: 'www-data'
+apache_run_group: 'www-data'
 
-apache_admin_user: "www-admin"
-apache_admin_group: "www-admin"
+apache_admin_user: 'www-admin'
+apache_admin_group: 'www-admin'
 
 # Vars for conf.d/security
-apache_server_tokens: "PROD"
-apache_server_signature: "Off"
-apache_server_trace: "Off"
+apache_server_tokens: 'PROD'
+apache_server_signature: 'Off'
+apache_server_trace: 'Off'
 
 ##########  apache2.conf  ##############
 # Timeout 300
 apache_timeout: 300
 # KeepAlive On | Off
-apache_keepalive: "On"
+apache_keepalive: 'On'
 # MaxKeepAliveRequests 100
 apache_keepalive_max: 100
 # KeepAliveTimeout 5
-apache_keepalive_to: "5"
+apache_keepalive_to: '5'
 # HostnameLookups Off
-apache_hostnamelookups: "Off"
+apache_hostnamelookups: 'Off'
 # LogLevel warn, debug, info, notice, warn, error, crit, alert, emerg
 # this can be configured at the vhost level too
 apache_loglevel: 'warn'
@@ -126,15 +129,15 @@ apache_loglevel: 'warn'
 # -------------  Authorisation users and groups
 apache_auth_users: []
 # - {
-#   username: "fred",
-#   password: "getfromvault",
-#   group: "agroup"
+#   username: 'fred',
+#   password: 'getfromvault',
+#   group: 'agroup'
 # }
 
 apache_auth_groups: []
 # - {
 #   groupname: agroup,
-#   members: "fred"
+#   members: 'fred'
 # }
 
 # used for auth protection
@@ -153,28 +156,28 @@ apache_site_https_enabled: false
 # ssl_certificate:
 # - {
 #     src: "{{ inventory_dir }}/common/files/ssl/certificate.pem",
-#     dest: "/etc/ssl/certs/certificate.pem",
-#     mode: "0644"
+#     dest: '/etc/ssl/certs/certificate.pem',
+#     mode: '0644'
 #     }
 # ssl_certificate_key:
 #   - {
 #      src: "{{ inventory_dir }}/common/files/ssl/keyfile.key",
-#      dest: "/etc/ssl/private/keyfile.key",
-#      mode: "0640"
+#      dest: '/etc/ssl/private/keyfile.key',
+#      mode: '0640'
 #      }
 # if we are using a certificate already in place:
 # set to false and
 # ssl_certificate:
 #  - {
-#      src: "/etc/ssl/certs/certificate.pem",
-#      dest: "/etc/ssl/certs/certificate.pem",
-#      mode: "0644"
+#      src: '/etc/ssl/certs/certificate.pem',
+#      dest: '/etc/ssl/certs/certificate.pem',
+#      mode: '0644'
 #      }
 # ssl_certificate_key:
 #   - {
 #      src: "{{ inventory_dir }}/common/files/ssl/keyfile.key",
-#      dest: "/etc/ssl/private/keyfile.key",
-#      mode: "0640"
+#      dest: '/etc/ssl/private/keyfile.key',
+#      mode: '0640'
 #      }
 
 ssl_cert_upload: false
@@ -182,16 +185,16 @@ ssl_cert_upload: false
 # ssl_certificate_key: []
 # ssl_certificate_chain:[]
 
-apache_ssl_protocol: "all -SSLv3 -TLSv1 -TLSv1.1"
-apache_ssl_cipher_suite: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384"
-apache_ssl_honorcipherorder: "off"
+apache_ssl_protocol: 'all -SSLv3 -TLSv1 -TLSv1.1'
+apache_ssl_cipher_suite: 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384'
+apache_ssl_honorcipherorder: 'off'
 
 # https://github.com/mozilla/server-side-tls/issues/99
-# if (isOpenSSLSemVer(data.opensslVersion, ">=0.9.8f") && (
+# if (isOpenSSLSemVer(data.opensslVersion, '>=0.9.8f') && (
 #          (isSemVer(data.serverVersion, '>=2.2.30') && isSemVer(data.serverVersion, '<2.4.0')) ||
 #           isSemVer(data.serverVersion, '>=2.4.11'))) {
 # data.sslSessionTickets = '    SSLSessionTickets       off'
-apache_ssl_sessiontickets: "off"
+apache_ssl_sessiontickets: 'off'
 
 
 # on | off
