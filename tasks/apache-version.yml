@@ -11,10 +11,10 @@
   set_fact:
     apache_version: "{{ _apache_version.stdout.split()[2].split('/')[1] }}"
 
-- name: get apache vars
+- name: Get apache vars
   include_vars: apache-22.yml
   when: "apache_version.split('.')[1] == '2'"
 
-- name: get apache vars
+- name: Get apache vars
   include_vars: apache-24.yml
   when: "apache_version.split('.')[1] == '4'"

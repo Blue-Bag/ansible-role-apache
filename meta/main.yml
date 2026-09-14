@@ -2,6 +2,7 @@
 galaxy_info:
   author: George Boobyer
   description: Setup Apache webserver
+  role_name: apache
   company: "Blue-Bag Ltd"
   license: MIT / BSD
   min_ansible_version: 1.2
