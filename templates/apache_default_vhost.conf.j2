@@ -46,7 +46,7 @@
    {% endif %}
   <RequireAll>
     <RequireAny>
-     {% for entry in incoming_ip_whitelist %}
+     {% for entry in apache_ip_allowlist %}
    Require ip {{ entry.ip }}
     {% endfor %}
     </RequireAny>
@@ -55,7 +55,7 @@
    Order deny,allow
    Deny from all
    Allow from 127.0.0.1
-     {% for entry in incoming_ip_whitelist %}
+     {% for entry in apache_ip_allowlist %}
    Allow from {{ entry.ip }}
      {% endfor %}
    {% endif %}
@@ -116,8 +116,12 @@ Include {{ apache_conf_available }}/blocked-agents.conf
   {% include 'bbinc/vhost-bb-logging.j2' %}
   {% else %}
   {% if apache_log_exclude_hb_only %}
-  SetEnvIf Request_Method HEAD hb-request=nolog
-  SetEnvIf Remote_Addr 127.0.0.1 hb-request=nolog
+  #SetEnvIf Request_Method HEAD hb-request=nolog
+  {%- if apache_proxy_ips is defined and apache_proxy_ips | length > 0 %}
+  {% for ip in apache_proxy_ips %}
+  SetEnvIf Remote_Addr {{ ip.address }} hb-request=nolog
+  {% endfor -%}
+  {% endif -%}
   SetEnvIf hb-request nolog do_not_log
   {% endif %}
   {% if apache_vhosts_version == '2.4' %}

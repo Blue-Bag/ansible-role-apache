@@ -4,5 +4,5 @@
     name: "{{ item }}"
     state: present
   #  enablerepo: "{{ apache_enablerepo }}"
-  with_items: "{{apache_packages}}"
+  with_items: "{{ apache_packages }}"
   become: true

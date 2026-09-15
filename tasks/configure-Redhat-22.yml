@@ -4,7 +4,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    recurse: yes
+    recurse: true
   with_items:
     - "{{ apache_vhost_available }}"
     - "{{ apache_vhost_enabled }}"
@@ -19,8 +19,8 @@
     line: "{{ item.line }}"
     state: present
   with_items:
-    - "{{apache_ports_configuration_items}}"
-    - "{{apache_env_vars}}"
+    - "{{ apache_ports_configuration_items }}"
+    - "{{ apache_env_vars }}"
     - "{{ apache_conf_vars }}"
     - "{{ apache_security_vars }}"
   notify: restart apache
@@ -41,8 +41,6 @@
 #     - apache
 #     - security
 
-
-
 - name: Apache | Configure Apache Logs (Redhat)
   lineinfile:
     dest: "{{ apache_server_root }}/conf/{{ apache_daemon }}.conf"
@@ -53,8 +51,3 @@
     backup: true
   when: apache_vhc_format is defined
   become: true
-
-
-
-
-

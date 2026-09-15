@@ -8,9 +8,13 @@
     mode: 0644
     owner: root
     group: root
-  when: apache_vhosts_version == '2.4' and apache_proxy == true and apache_remoteproxy_ips_list
+  when: 
+    apache_vhosts_version == '2.4' and
+    apache_proxy|bool and
+    (apache_remoteproxy_ips_list | default([]) | length) > 0
   notify: restart apache
   become: true
+  #apache_vhosts_version == '2.4' and apache_proxy|bool and apache_remoteproxy_ips_list
 
 # we may need to configure it before enabling
 - name: Apache | Configure remoteip
@@ -20,7 +24,7 @@
     mode: 0644
     owner: root
     group: root
-  when: apache_vhosts_version == '2.4' and apache_proxy == true
+  when: apache_vhosts_version == '2.4' and apache_proxy|bool
   notify: restart apache
   become: true
 
@@ -30,7 +34,7 @@
     - remoteip
   notify: restart apache
   become: true
-  when: apache_vhosts_version == '2.4' and apache_proxy == true
+  when: apache_vhosts_version == '2.4' and apache_proxy|bool
 
 # - name:  Apache | Add remoteip header config
 #   lineinfile:
@@ -47,8 +51,6 @@
 #     regexp: "^RemoteIPInternalProxy",
 #     line: "RemoteIPInternalProxy {{ apache_proxy_ip }}"
 #    }
-  # when: apache_vhosts_version == '2.4' and apache_proxy == true
-  # become: true
-  # notify: restart apache
-
-
+#  when: apache_vhosts_version == '2.4' and apache_proxy == true
+#  become: true
+#  notify: restart apache

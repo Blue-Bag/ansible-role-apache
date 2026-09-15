@@ -11,23 +11,20 @@
 ## ENVIRONMENT VARIABLES ###
  SetEnv TZ {{ apache_timezone }}
 
-{% if apache_server_header is defined and apache_server_header != '' %}
-<IfModule mod_headers.c>
-    Header set {{ apache_server_header }}
-</IfModule>
-{% endif %}
-
-
  <IfModule mod_headers.c>
-    {% if http_headers is defined %}
-    {% for httpheader in http_headers %}
+    {%- if http_headers is defined -%}
+    {%- for httpheader in http_headers -%}
       {% if not httpheader.secure or (httpheader.secure and apache_site_https_enabled) %}
-      Header {{ httpheader.level }} {{ httpheader.name }} "{{ httpheader.value}}"
+      Header {{ httpheader.level }} {{ httpheader.name }} {% if httpheader.value is defined %}"{{ httpheader.value}}"{% endif %} 
       {% endif %}
-    {% endfor %}
-    {% else %}
-        Header set {{ server_header }}
-    {% endif %}
+    {%- endfor -%}
+    {%- else -%}
+       {%- if (apache_server_header is defined and apache_server_header != '')  -%}
+    Header set {{ apache_server_header }}
+       {%- else -%}
+    Header set {{ server_header }}
+       {%- endif -%}
+    {%- endif -%}
   </IfModule>
 
 ## ERRORDOCUMENTS ###
@@ -92,7 +89,7 @@
   ExpiresByType text/css A17200
 </IfModule>
 
-#   Include /etc/apache2/whitelist-addresses.conf
+#   Include /etc/apache2/allowlist-addresses.conf
 
 # require password for admin files or allow from an IP
 <FilesMatch "([^index].*\.php|[^robots].*\.txt)$">
@@ -101,14 +98,14 @@
    AuthType basic
    Require valid-user
    {% if apache_vhosts_version == '2.4' %}
-     {% for entry in apache_ip_whitelist %}
+     {% for entry in apache_ip_allowlist %}
    Require ip {{ entry.ip }}
      {% endfor %}
    {% else %}
    Order deny,allow
    Deny from all
    Allow from 127.0.0.1
-     {% for entry in apache_ip_whitelist %}
+     {% for entry in apache_ip_allowlist %}
    Allow from {{ entry.ip }}
      {% endfor %}
     Satisfy Any

@@ -26,13 +26,13 @@
 
 - name: Apache | Enable Apache mods.
   apache2_module: state=present name={{ item }}
-  with_items: "{{apache_enable_mods}}"
+  with_items: "{{ apache_enable_mods }}"
   notify: restart apache
   become: true
 
 - name: Apache | Disable Apache Mods
   apache2_module: state=absent name={{ item }}
-  with_items: "{{apache_disable_mods}}"
+  with_items: "{{ apache_disable_mods }}"
   notify: restart apache
   become: true
   tags:
@@ -45,7 +45,7 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     state: present
-  with_items: "{{apache_env_vars}}"
+  with_items: "{{ apache_env_vars }}"
   become: true
 
   notify: restart apache
@@ -56,10 +56,9 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     state: present
-  with_items: "{{apache_conf_vars}}"
+  with_items: "{{ apache_conf_vars }}"
   become: true
   notify: restart apache
-
 
 - name: Apache | Configure Apache Logs (Debian)
   lineinfile:
@@ -78,8 +77,6 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     state: present
-  with_items: "{{apache_security_vars}}"
+  with_items: "{{ apache_security_vars }}"
   become: true
   notify: restart apache
-
-

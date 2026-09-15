@@ -18,7 +18,7 @@ apache_conf_main: "apache2.conf"
 __apache_packages:
   - apache2
   - apache2-utils
-  - python-passlib
+  - python3-passlib
 
 apache_enable_mods:
   - rewrite
@@ -47,7 +47,7 @@ apache_disable_mods:
 #  - autoindex
 
 apache_mysql_packages:
-  - mysql-client
+  - default-mysql-client
 
 __ssl_private_dir: '/etc/ssl/private'
 __ssl_certs_dir: '/etc/ssl/certs'

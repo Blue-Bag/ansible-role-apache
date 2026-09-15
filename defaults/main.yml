@@ -4,18 +4,18 @@
 apache_listen_port: 80
 apache_listen_port_ssl: 443
 
-apache_remote_db: True
+apache_remote_db: true
 # default site
 # could use a template or fileglob
-#path to files for the default site
-apache_default_site_files: "default-site"
+# path to files for the default site
+apache_default_site_files: 'default-site'
 
-apache_server_admin: "root@localhost"
+apache_server_admin: 'root@localhost'
 
 apache_webserver_hostname: "{{ inventory_hostname }}"
-#apache_webserver_hostname_alias:
+# apache_webserver_hostname_alias:
 
-apache_timezone: "Europe/London"
+apache_timezone: 'Europe/London'
 
 # the following is deprecated in favour of http_headers
 apache_server_header: ''
@@ -33,15 +33,15 @@ apache_server_header: ''
 #       level: 'always set'
 #   }
 
-apache_server_stage: "live"
+apache_server_stage: 'live'
 
-apache_home_dir: "/var/www"
+apache_home_dir: '/var/www'
 apache_default_site: "{{ apache_home_dir }}/default"
 # default is to file_glob the default site
 # if you have folders to recurse then use rsync
-apache_rsync_default_site: False
+apache_rsync_default_site: false
 
-host_redirect_to_main: False
+host_redirect_to_main: false
 
 # a variable for the name of the vhost (used inthe logging optimisations)
 apache_vhost_logname: 'default'
@@ -71,128 +71,137 @@ apache_proxy_ips:
 apache_proxy_header: 'X-Forwarded-For'
 apache_proxy_header_by: 'X-Forwarded-By'
 
-apache_remoteproxy_ips_list:
-   filename: "{{ apache_mods_available }}/remoteip-trusted-proxies.lst"
-   sourceurl: 'https://www.cloudflare.com/ips-v4'
-   ips:
-      - '103.21.244.0/22'
-      - '103.22.200.0/22'
-      - '103.31.4.0/22'
-      - '104.16.0.0/12'
-      - '108.162.192.0/18'
-      - '131.0.72.0/22'
-      - '141.101.64.0/18'
-      - '162.158.0.0/15'
-      - '172.64.0.0/13'
-      - '173.245.48.0/20'
-      - '188.114.96.0/20'
-      - '190.93.240.0/20'
-      - '197.234.240.0/22'
-      - '198.41.128.0/17'
+apache_remoteproxy_ips_list: []
+#  filename: "{{ apache_mods_available }}/remoteip-trusted-proxies.lst"
+#  sourceurl: 'https://www.cloudflare.com/ips-v4'
+#  ips:
+#     - '103.21.244.0/22'
+#     - '103.22.200.0/22'
+#     - '103.31.4.0/22'
+#     - '104.16.0.0/13'
+#     - '104.24.0.0/14' 
+#     - '108.162.192.0/18'
+#     - '131.0.72.0/22'
+#     - '141.101.64.0/18'
+#     - '162.158.0.0/15'
+#     - '172.64.0.0/13'
+#     - '173.245.48.0/20'
+#     - '188.114.96.0/20'
+#     - '190.93.240.0/20'
+#     - '197.234.240.0/22'
+#     - '198.41.128.0/17'
 
-apache_proxy_log: "absent"
-#apache_vhc_format: 'LogFormat "%v:%p \"%{X-Forwarded-For}i\" %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhostproxy_combined'
+
+apache_proxy_log: 'absent'
+# apache_vhc_format: 'LogFormat '%v:%p \'%{X-Forwarded-For}i\' %l %u %t \'%r\' %>s %O \'%{Referer}i\' \'%{User-Agent}i\'' vhostproxy_combined'
 # This new format allows for failtoban and proxy address
 apache_vhc_format: 'LogFormat "%a %v:%p %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhostproxy_combined'
-apache_server_status_enabled: no
+
+apache_server_status_enabled: false
 
 # ENVARS
-apache_run_user: "www-data"
-apache_run_group: "www-data"
+apache_run_user: 'www-data'
+apache_run_group: 'www-data'
 
-apache_admin_user: "www-admin"
-apache_admin_group: "www-admin"
+apache_admin_user: 'www-admin'
+apache_admin_group: 'www-admin'
 
 # Vars for conf.d/security
-apache_server_tokens: "PROD"
-apache_server_signature: "Off"
-apache_server_trace: "Off"
+apache_server_tokens: 'PROD'
+apache_server_signature: 'Off'
+apache_server_trace: 'Off'
 
 ##########  apache2.conf  ##############
-#Timeout 300
+# Timeout 300
 apache_timeout: 300
-#KeepAlive On | Off
-apache_keepalive: "On"
-#MaxKeepAliveRequests 100
+# KeepAlive On | Off
+apache_keepalive: 'On'
+# MaxKeepAliveRequests 100
 apache_keepalive_max: 100
-#KeepAliveTimeout 5
-apache_keepalive_to: "5"
-#HostnameLookups Off
-apache_hostnamelookups: "Off"
-#LogLevel warn, debug, info, notice, warn, error, crit, alert, emerg
+# KeepAliveTimeout 5
+apache_keepalive_to: '5'
+# HostnameLookups Off
+apache_hostnamelookups: 'Off'
+# LogLevel warn, debug, info, notice, warn, error, crit, alert, emerg
 # this can be configured at the vhost level too
-apache_loglevel: warn
+apache_loglevel: 'warn'
 
-#-------------  Authorisation users and groups
+# -------------  Authorisation users and groups
 apache_auth_users: []
- #- {
- #   username: "fred",
- #   password: "getfromvault",
- #   group: "agroup"
- # }
+# - {
+#   username: 'fred',
+#   password: 'getfromvault',
+#   group: 'agroup'
+# }
 
 apache_auth_groups: []
 # - {
- #  groupname: agroup,
-#   members: "fred"
+#   groupname: agroup,
+#   members: 'fred'
 # }
 
 # used for auth protection
-apache_ip_whitelist: []
+apache_ip_allowlist: []
 
 # is the server ssl enabled (set up sssl)
-apache_tls_enabled: no
+apache_tls_enabled: false
 
 # is the vhost listening for apache_tls_enabled
-apache_vhost_tls_enabled: no
+apache_vhost_tls_enabled: false
 # is the default site ssl enabled
-apache_site_https_enabled: no
+apache_site_https_enabled: false
 
 # if we have the certificates and keys locally and want to upload them
 # set to true and provide a list of certificates with
 # ssl_certificate:
 # - {
 #     src: "{{ inventory_dir }}/common/files/ssl/certificate.pem",
-#     dest: "/etc/ssl/certs/certificate.pem",
-#     mode: "0644"
+#     dest: '/etc/ssl/certs/certificate.pem',
+#     mode: '0644'
 #     }
 # ssl_certificate_key:
 #   - {
 #      src: "{{ inventory_dir }}/common/files/ssl/keyfile.key",
-#      dest: "/etc/ssl/private/keyfile.key",
-#      mode: "0640"
+#      dest: '/etc/ssl/private/keyfile.key',
+#      mode: '0640'
 #      }
 # if we are using a certificate already in place:
 # set to false and
 # ssl_certificate:
 #  - {
-#      src: "/etc/ssl/certs/certificate.pem",
-#      dest: "/etc/ssl/certs/certificate.pem",
-#      mode: "0644"
+#      src: '/etc/ssl/certs/certificate.pem',
+#      dest: '/etc/ssl/certs/certificate.pem',
+#      mode: '0644'
 #      }
 # ssl_certificate_key:
 #   - {
 #      src: "{{ inventory_dir }}/common/files/ssl/keyfile.key",
-#      dest: "/etc/ssl/private/keyfile.key",
-#      mode: "0640"
+#      dest: '/etc/ssl/private/keyfile.key',
+#      mode: '0640'
 #      }
 
-ssl_cert_upload: no
-#ssl_certificate: []
-#ssl_certificate_key: []
-#ssl_certificate_chain:[]
+ssl_cert_upload: false
+# ssl_certificate: []
+# ssl_certificate_key: []
+# ssl_certificate_chain:[]
 
-apache_ssl_protocol: "All -SSLv2 -SSLv3"
-apache_ssl_cipher_suite: "AES256+EECDH:AES256+EDH"
+apache_ssl_protocol: 'all -SSLv3 -TLSv1 -TLSv1.1'
+apache_ssl_cipher_suite: 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384'
+apache_ssl_honorcipherorder: 'off'
 
+# https://github.com/mozilla/server-side-tls/issues/99
+# if (isOpenSSLSemVer(data.opensslVersion, '>=0.9.8f') && (
+#          (isSemVer(data.serverVersion, '>=2.2.30') && isSemVer(data.serverVersion, '<2.4.0')) ||
+#           isSemVer(data.serverVersion, '>=2.4.11'))) {
+# data.sslSessionTickets = '    SSLSessionTickets       off'
+apache_ssl_sessiontickets: 'off'
 
-#SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4
-#SSLCipherSuite ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA
 
 # on | off
 apache_ssl_usestapling: 'off'
-apache_deny_addresses: no
-apache_deny_agents: no
+apache_deny_addresses: false
+apache_deny_agents: false
+apache_allow_agents: false
 apache_blocked_addresses:
   - '96\.47\.22(4|5)\.*'
   - '173\.44\.37\.*'
@@ -245,3 +254,14 @@ apache_blocked_agents:
   - 'zgrab/0.x'
   - 'python-requests'
   - 'Daum/4.1'
+  - 'Barkrowler'
+  - 'PostmanRuntime'
+  - YandexBot/3.0'
+  - 'Barkrowler'
+  - 'PostmanRuntime'
+  - 'jndi'
+  - 'http443path'
+  - 'log4j'
+  - 'TOPBOT'
+  - 'Bytespider'
+  - 'PetalBot'

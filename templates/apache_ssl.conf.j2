@@ -73,7 +73,7 @@
 	#   considered compromised, too.
 	#SSLCipherSuite RC4-SHA:AES128-SHA:HIGH:MEDIUM:!aNULL:!MD5
 	#SSLHonorCipherOrder on
-	SSLHonorCipherOrder On
+	SSLHonorCipherOrder {{ apache_ssl_honorcipherorder | default('off') }}
 
 	#   The protocols to enable.
 	#   Available values: all, SSLv3, TLSv1, TLSv1.1, TLSv1.2
