@@ -43,6 +43,9 @@ apache_rsync_default_site: false
 
 host_redirect_to_main: false
 
+# restrict the default vhost to apache_ip_allowlist, others get blocked.html
+apache_default_vhost_allowlist_only: false
+
 # a variable for the name of the vhost (used inthe logging optimisations)
 apache_vhost_logname: 'default'
 apache_log_dir: "/var/log/{{ apache_daemon }}"
@@ -61,7 +64,8 @@ apache_logfile_rotate_number: 14
 # is apache behind a proxy (varnish, pound etc)
 apache_proxy: false
 apache_proxy_ips:
-  - '127.0.0.1/8'
+  - address: '127.0.0.1'
+    type: 'Internal'
 
 # On Nginx backend
 # RemoteIPHeader X-Real-IP

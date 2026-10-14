@@ -24,6 +24,21 @@
 {% include 'bbinc/vhost-letsencrypt-acme.j2' %}
 {% endif %}
 
+{% if apache_default_vhost_allowlist_only %}
+  <Location />
+    ErrorDocument 403 /blocked.html
+    <RequireAny>
+      Require local
+{% for entry in apache_ip_allowlist %}
+      Require ip {{ entry.ip }}
+{% endfor %}
+    </RequireAny>
+  </Location>
+  <LocationMatch "^/(blocked\.html|\.well-known/acme-challenge/)">
+    Require all granted
+  </LocationMatch>
+{% endif %}
+
 # CORS support allow fonts
 <IfModule mod_headers.c>
 <FilesMatch ".(eot|ttf|otf|woff)">
