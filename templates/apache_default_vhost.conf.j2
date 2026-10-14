@@ -148,6 +148,8 @@ Include {{ apache_conf_available }}/blocked-agents.conf
 
  {% include 'bbinc/vhost_bboptimisations001.conf.j2' %}
 
+ {% include 'bbinc/vhost-slowloris.conf.j2' %}
+
 
 </VirtualHost>
 {% if apache_vhost_tls_enabled %}

@@ -1,0 +1,5 @@
+# Added to prevent slowloris 408 attacks
+<ifmodule reqtimeout_module>
+  RequestReadTimeout header=10-20,minrate=500
+  RequestReadTimeout body=10,minrate=500
+</ifmodule>
