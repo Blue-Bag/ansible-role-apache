@@ -39,6 +39,16 @@
     - apache
     - security
 
+- name: Apache | Configure prefork MPM limits (Debian)
+  lineinfile:
+    dest: "{{ apache_mods_available }}/mpm_prefork.conf"
+    regexp: '^\s*{{ item.key }}\s'
+    line: "\t{{ item.key }}\t{{ item.value }}"
+    insertbefore: '^</IfModule>'
+  with_dict: "{{ apache_mpm_prefork_settings }}"
+  become: true
+  notify: reload apache
+
 - name: Apache  | Configure Apache EnvVars (Debian).
   lineinfile:
     dest: "{{ apache_server_root }}/envvars"

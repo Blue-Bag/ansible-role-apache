@@ -23,6 +23,18 @@ Role Variables
 --------------
 to_do
 
+### Prefork MPM limits (Debian)
+
+Set directives in `mods-available/mpm_prefork.conf`. Each key is a prefork directive; Apache is reloaded on change. The default (`{}`) leaves the file alone.
+
+```
+apache_mpm_prefork_settings:
+  MaxRequestWorkers: 20
+  MaxConnectionsPerChild: 1000
+```
+
+Size `MaxRequestWorkers` to the RAM left over after the other services, divided by the memory per Apache/mod_php process (around 100 MB for a Drupal or WordPress site). The Debian default of 150 can exhaust memory on a small server under a burst of requests.
+
 
 Dependencies
 ------------

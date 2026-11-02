@@ -269,3 +269,7 @@ apache_blocked_agents:
   - 'TOPBOT'
   - 'Bytespider'
   - 'PetalBot'
+
+# Prefork MPM directives to set in mods-available/mpm_prefork.conf, e.g.
+# { MaxRequestWorkers: 20, MaxConnectionsPerChild: 1000 }. Empty leaves the file alone.
+apache_mpm_prefork_settings: {}
